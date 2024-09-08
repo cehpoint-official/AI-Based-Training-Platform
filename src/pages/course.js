@@ -253,7 +253,7 @@ const Course = () => {
             CountDoneTopics();
 
         }
-
+// eslint-disable-next-line
     }, []);
 
     const handleSelect = (topics, sub) => {

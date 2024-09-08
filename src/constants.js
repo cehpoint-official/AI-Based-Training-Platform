@@ -1,8 +1,8 @@
 //BRAND
 export const name = 'Cehpoint E-Learning Solutions';
  export const company = 'Cehpoint E-Learning & Cybersecurity Solutions';
-export const websiteURL = 'http://localhost:3000';
-export const serverURL = 'http://localhost:5000';
+export const websiteURL = 'https://ai-based-training-platfo-ca895.web.app/';
+export const serverURL = 'https://ai-based-training-platform1.onrender.com';
 export const logo = 'https://firebasestorage.googleapis.com/v0/b/india-bd34b.appspot.com/o/artificial-intelligence.png?alt=media&token=2dc0da1c-12d0-4dd2-b908-cb8e57fcf3f0';
 // export const razorpayEnabled = true;
 // export const paypalEnabled = true;
@@ -28,8 +28,10 @@ export const logo = 'https://firebasestorage.googleapis.com/v0/b/india-bd34b.app
 
 //TESTIMONIAL
 export const review = "The AI Course Generator revolutionized my content creation process, providing accurate and relevant topics effortlessly. It's a time-saving powerhouse that enhances the quality and relevance of my courses. A must-have tool for educators seeking efficiency and impactful online learning experiences.";
-export const from = "Anam Meena Sharif";
-export const profession = 'CFO at Spacester';
+// from and profession is updated
+
+export const from = "Jit Banerjee (Officially Sujan Banerjee )";
+export const profession = 'Founder & CEO at Cehpoint';
 export const photoURL = 'https://play-lh.googleusercontent.com/sV_ffBmBJt_je4RZHnfaCfcnL-Hy6C14Iol7H5EMj9fzI2GDOonuojdn5t9p6n9IAX8j';
 
 //PAYPAL

@@ -32,7 +32,7 @@ const SignUp = () => {
         if (sessionStorage.getItem('auth')) {
             redirectHome();
         }
-
+// eslint-disable-next-line
     }, []);
 
     const showToast = async (msg) => {

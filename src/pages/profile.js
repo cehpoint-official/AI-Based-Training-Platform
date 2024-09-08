@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useState } from 'react';
 import Header from '../components/header';
 import Footers from '../components/footers';
@@ -6,7 +7,7 @@ import { AiOutlineLoading } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import { serverURL } from '../constants';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
 
@@ -15,10 +16,10 @@ const Profile = () => {
     const [password, setPassword] = useState('');
     const [processing, setProcessing] = useState(false);
 
-    const navigate = useNavigate();
-    function redirectSubscription() {
-        navigate("/subscription");
-    }
+    // const navigate = useNavigate();
+    // function redirectSubscription() {
+    //     navigate("/subscription");
+    // }
 
     const showToast = async (msg) => {
         setProcessing(false);
@@ -84,7 +85,7 @@ const Profile = () => {
                                 <input value={password} onChange={(e) => setPassword(e.target.value)} className='focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none block w-full dark:bg-black dark:border-white dark:text-white' id="password1" type="password" />
                             </div>
                             <Button isProcessing={processing} processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />} className='items-center justify-center text-center dark:bg-white dark:text-black bg-black text-white font-bold rounded-none w-full enabled:hover:bg-black enabled:focus:bg-black enabled:focus:ring-transparent dark:enabled:hover:bg-white dark:enabled:focus:bg-white dark:enabled:focus:ring-transparent' type="submit">Submit</Button>
-                            <Button onClick={redirectSubscription} className='my-6 items-center justify-center text-center border-black dark:border-white dark:bg-black dark:text-white bg-white text-black font-bold rounded-none w-full enabled:hover:bg-white enabled:focus:bg-white enabled:focus:ring-transparent dark:enabled:hover:bg-black dark:enabled:focus:bg-black dark:enabled:focus:ring-transparent'>Manage Subscriptions</Button>
+                        
                         </div>
 
                     </form>
