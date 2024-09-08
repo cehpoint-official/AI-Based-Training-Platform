@@ -27,6 +27,7 @@ const AdminHead = () => {
         } else {
             dashboardData();
         }
+         // eslint-disable-next-line 
     }, []);
 
     return (

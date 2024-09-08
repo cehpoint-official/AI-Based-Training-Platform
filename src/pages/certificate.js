@@ -39,7 +39,7 @@ const Certificate = () => {
         if (!courseTitle) {
             navigate("/create");
         }
-
+// eslint-disable-next-line
     }, []);
 
     const showToast = async (msg) => {
