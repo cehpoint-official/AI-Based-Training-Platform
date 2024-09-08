@@ -1,3 +1,4 @@
+    // eslint-disable-next-line 
 import React, { useEffect, useState } from 'react';
 import Header from '../components/header';
 import Footers from '../components/footers';
@@ -11,22 +12,24 @@ import { serverURL } from '../constants';
 const Create = () => {
 
     const maxSubtopics = 5;
-    const [formValues, setFormValues] = useState([{ sub: "" }]);
+    const [formValues, setFormValues] = useState([{ sub: "5" }]);
     const [processing, setProcessing] = useState(false);
-    const [selectedValue, setSelectedValue] = useState('4');
+    const [selectedValue, setSelectedValue] = useState('10');
     const [selectedType, setSelectedType] = useState('Text & Image Course');
-    const [paidMember, setPaidMember] = useState(false);
-    const [lableText, setLableText] = useState('For free member sub topics is limited to 5');
+    
+    // const [paidMember, setPaidMember] = useState(false);
+    // eslint-disable-next-line 
+    const [lableText, setLableText] = useState('For free member sub topics is limited to 4');
     const navigate = useNavigate();
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (sessionStorage.getItem('type') !== 'free') {
-            setPaidMember(true);
-            setLableText('Select number of sub topics')
-        }
+    //     if (sessionStorage.getItem('type') == 'free') {
+    //         setPaidMember(true);
+    //         setLableText('Select number of sub topics')
+    //     }
 
-    }, []);
+    // }, []);
 
     let handleChange = (i, e) => {
         let newFormValues = [...formValues];
@@ -48,19 +51,19 @@ const Create = () => {
         setFormValues(newFormValues);
     }
 
-    const showPaidToast = async () => {
-        if (!paidMember) {
-            toast("For paid members only", {
-                position: "bottom-center",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined
-            });
-        }
-    }
+    // const showPaidToast = async () => {
+    //     if (!paidMember) {
+    //         toast("For paid members only", {
+    //             position: "bottom-center",
+    //             autoClose: 3000,
+    //             hideProgressBar: false,
+    //             closeOnClick: true,
+    //             pauseOnHover: true,
+    //             draggable: true,
+    //             progress: undefined
+    //         });
+    //     }
+    // }
 
     const showToast = async (msg) => {
         toast(msg, {
@@ -164,7 +167,8 @@ const Create = () => {
             sendPrompt(prompt, mainTopic, selectedType)
         }
     }
-
+     
+ // eslint-disable-next-line 
     const handleRadioChange = (event) => {
         setSelectedValue(event.target.value);
     };
@@ -209,26 +213,26 @@ const Create = () => {
                                 <Button type="button" onClick={() => removeFormFields()} className='mb-6 items-center justify-center text-center border-black dark:border-white dark:bg-black dark:text-white bg-white text-black font-bold rounded-none w-full enabled:hover:bg-white enabled:focus:bg-white enabled:focus:ring-transparent dark:enabled:hover:bg-black dark:enabled:focus:bg-black dark:enabled:focus:ring-transparent'>Remove Sub-Topic</Button>
                             )}
 
-                            <Label className="font-bold text-black dark:text-white" htmlFor="nosubtopic" value={lableText} />
+                            {/* <Label className="font-bold text-black dark:text-white" htmlFor="nosubtopic" value={lableText} />
                             <fieldset className="flex max-w-md flex-col gap-4 mt-2">
                                 <div className="flex items-center gap-2 px-2 h-11 focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none w-full dark:bg-black dark:border-white dark:text-white">
                                     <Radio onChange={handleRadioChange} className='text-black border-black dark:text-white dark:border-white dark:focus:text-black focus:ring-black dark:focus:ring-white dark:focus:bg-black ' id="4" name="value" value="4" defaultChecked />
-                                    <Label className='text-black dark:text-white font-bold' htmlFor="4">5</Label>
+                                    <Label className='text-black dark:text-white font-bold' htmlFor="4"></Label>
                                 </div>
-                                <div onClick={() => showPaidToast()} className="flex items-center gap-2 px-2 h-11 focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none w-full dark:bg-black dark:border-white dark:text-white mb-6">
-                                    <Radio onChange={handleRadioChange} disabled={!paidMember} className='text-black border-black dark:text-white dark:border-white dark:focus:text-black focus:ring-black dark:focus:ring-white dark:focus:bg-black ' id="7" name="value" value="7" />
+                                <div  className="flex items-center gap-2 px-2 h-11 focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none w-full dark:bg-black dark:border-white dark:text-white mb-6">
+                                    <Radio onChange={handleRadioChange}  className='text-black border-black dark:text-white dark:border-white dark:focus:text-black focus:ring-black dark:focus:ring-white dark:focus:bg-black ' id="7" name="value" value="7" />
                                     <Label className='text-black dark:text-white font-bold' htmlFor="7">10</Label>
                                 </div>
                             </fieldset>
 
-                            <Label className="font-bold text-black dark:text-white" htmlFor="nosubtopic" value="Select Course Type" />
+                            <Label className="font-bold text-black dark:text-white" htmlFor="nosubtopic" value="Select Course Type" /> */}
                             <fieldset className="flex max-w-md flex-col gap-4 mt-2">
                                 <div className="flex items-center gap-2 px-2 h-11 focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none w-full dark:bg-black dark:border-white dark:text-white">
                                     <Radio onChange={handleRadioChangeType} className='text-black border-black dark:text-white dark:border-white dark:focus:text-black focus:ring-black dark:focus:ring-white dark:focus:bg-black ' id="textcourse" name="value1" value="Text & Image Course" defaultChecked />
                                     <Label className='text-black dark:text-white font-bold' htmlFor="textcourse">Theory & Image Course</Label>
                                 </div>
-                                <div onClick={() => showPaidToast()} className="flex items-center gap-2 px-2 h-11 focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none w-full dark:bg-black dark:border-white dark:text-white mb-6">
-                                    <Radio onChange={handleRadioChangeType} disabled={!paidMember} className='text-black border-black dark:text-white dark:border-white dark:focus:text-black focus:ring-black dark:focus:ring-white dark:focus:bg-black ' id="videocourse" name="value1" value="Video & Text Course" />
+                                <div className="flex items-center gap-2 px-2 h-11 focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none w-full dark:bg-black dark:border-white dark:text-white mb-6">
+                                    <Radio onChange={handleRadioChangeType}  className='text-black border-black dark:text-white dark:border-white dark:focus:text-black focus:ring-black dark:focus:ring-white dark:focus:bg-black ' id="videocourse" name="value1" value="Video & Text Course" />
                                     <Label className='text-black dark:text-white font-bold' htmlFor="videocourse">Video & Theory Course</Label>
                                 </div>
                             </fieldset>
