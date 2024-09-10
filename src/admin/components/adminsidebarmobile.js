@@ -3,7 +3,7 @@ import LogoComponent from '../../components/LogoComponent';
 import { MdSpaceDashboard } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import { PiVideoFill } from "react-icons/pi";
-import { FaDollarSign } from "react-icons/fa";
+// import { FaDollarSign } from "react-icons/fa";
 import { MdSettingsInputComponent } from "react-icons/md";
 import { AiFillMessage } from "react-icons/ai";
 import { IoIosDocument } from "react-icons/io";
@@ -33,9 +33,9 @@ const AdminSidebarMobile = ({ isSidebarOpen }) => {
     function redirectCourses() {
         navigate("/courses");
     }
-    function redirectPaid() {
-        navigate("/paid");
-    }
+    // function redirectPaid() {
+    //     navigate("/paid");
+    // }
     function redirectContacts() {
         navigate("/contacts");
     }
@@ -45,18 +45,18 @@ const AdminSidebarMobile = ({ isSidebarOpen }) => {
     function redirectTerms() {
         navigate("/editterms");
     }
-    function redirectRefund() {
-        navigate("/editrefund");
-    }
+    // function redirectRefund() {
+    //     navigate("/editrefund");
+    // }
     function redirectPrivacy() {
         navigate("/editprivacy");
     }
-    function redirectBilling() {
-        navigate("/editbilling");
-    }
-    function redirectCancel() {
-        navigate("/editcancellation");
-    }
+    // function redirectBilling() {
+    //     navigate("/editbilling");
+    // }
+    // function redirectCancel() {
+    //     navigate("/editcancellation");
+    // }
 
     return (
         <Sidebar
@@ -77,10 +77,10 @@ const AdminSidebarMobile = ({ isSidebarOpen }) => {
                     <PiVideoFill size={20} />
                     <p className='font-bold text-base ml-2'>Courses</p>
                 </div>
-                <div className='flex flex-row items-center mt-6' onClick={redirectPaid}>
+                {/* <div className='flex flex-row items-center mt-6' onClick={redirectPaid}>
                     <FaDollarSign size={20} />
                     <p className='font-bold text-base ml-2'>Paid Users</p>
-                </div>
+                </div> */}
                 <div className='flex flex-row items-center mt-6' onClick={redirectAdmins}>
                     <MdSettingsInputComponent size={20} />
                     <p className='font-bold text-base ml-2'>Admins</p>
@@ -97,7 +97,7 @@ const AdminSidebarMobile = ({ isSidebarOpen }) => {
                     <IoIosDocument size={18} />
                     <p className='font-bold text-base ml-2'>Privacy</p>
                 </div>
-                <div className='flex flex-row items-center mt-6' onClick={redirectCancel}>
+                {/* <div className='flex flex-row items-center mt-6' onClick={redirectCancel}>
                     <IoIosDocument size={18} />
                     <p className='font-bold text-base ml-2'>Cancellation</p>
                 </div>
@@ -108,7 +108,7 @@ const AdminSidebarMobile = ({ isSidebarOpen }) => {
                 <div className='flex flex-row items-center mt-6' onClick={redirectBilling}>
                     <IoIosDocument size={18} />
                     <p className='font-bold text-base ml-2'>Subscription & Billing</p>
-                </div>
+                </div> */}
             </Sidebar.Items>
         </Sidebar>
     );
