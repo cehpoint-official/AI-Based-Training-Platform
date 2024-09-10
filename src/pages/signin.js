@@ -10,6 +10,9 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { AiOutlineLoading } from 'react-icons/ai';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { auth, googleProvider } from '../firebase/firebaseConfig'; 
+import { signInWithPopup } from 'firebase/auth';
+
 
 const SignIn = () => {
 
@@ -78,30 +81,32 @@ const SignIn = () => {
         }
     };
 
-    const handleGoogleSignIn = async (response) => {
+    const handleGoogleSignIn = async () => {
         try {
-            const token = response.credential;
-            const postURL = serverURL + '/api/google-signin';
-            const result = await axios.post(postURL, { token });
-            if (result.data.success) {
-                showToast(result.data.message);
-                sessionStorage.setItem('email', result.data.userData.email);
-                sessionStorage.setItem('mName', result.data.userData.mName);
-                sessionStorage.setItem('auth', true);
-                sessionStorage.setItem('uid', result.data.userData._id);
-                sessionStorage.setItem('type', result.data.userData.type);
-                redirectHome();
-            } else {
-                showToast(result.data.message);
-            }
+          const result = await signInWithPopup(auth, googleProvider);
+          const user = result.user;
+          const token = await user.getIdToken(); // Get the user's token
+          const postURL = `${serverURL}/api/google-signin`;
+          const response = await axios.post(postURL, { token });
+          if (response.data.success) {
+            showToast(response.data.message);
+            sessionStorage.setItem('email', response.data.userData.email);
+            sessionStorage.setItem('mName', response.data.userData.mName);
+            sessionStorage.setItem('auth', true);
+            sessionStorage.setItem('uid', response.data.userData._id);
+            sessionStorage.setItem('type', response.data.userData.type);
+            navigate("/home");
+          } else {
+            showToast(response.data.message);
+          }
         } catch (error) {
-            showToast('Internal Server Error');
+          showToast('Google sign-in failed');
         }
-    };
+      };
     
 
     return (
-        <GoogleOAuthProvider clientId="<id>">
+        <GoogleOAuthProvider clientId="<ftrxT8HqeWUNZeaeGKoZ2PNXTH42>">
             <Flowbite>
                 <div className="flex h-screen dark:bg-black no-scrollbar">
 
@@ -139,13 +144,10 @@ const SignIn = () => {
                                 <Button isProcessing={processing} processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />} className='items-center justify-center text-center dark:bg-white dark:text-black bg-black text-white font-bold rounded-none w-full enabled:hover:bg-black enabled:focus:bg-black enabled:focus:ring-transparent dark:enabled:hover:bg-white dark:enabled:focus:bg-white dark:enabled:focus:ring-transparent' type="submit">Submit</Button>
 
                                 <div className='text-center pt-5'>
-                                        <GoogleLogin
-                                            onSuccess={handleGoogleSignIn}
-                                            onError={(error) => {
-                                                console.error('Google login error:', error);
-                                                showToast('Google login failed');
-                                            }}
-                                        />
+                                    <Button onClick={handleGoogleSignIn} className='flex items-center justify-center text-center dark:bg-white dark:text-black bg-black text-white font-bold rounded-none w-full enabled:hover:bg-black enabled:focus:bg-black enabled:focus:ring-transparent dark:enabled:hover:bg-white dark:enabled:focus:bg-white dark:enabled:focus:ring-transparent'>
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCWKGr_E3qM7B-B-_xwIZyF12n3sK3eM1q5w&s" alt="Google" className='w-6 h-6 mr-2 rounded-xl'/>
+                                        Sign In with Google 
+                                    </Button>
                                 </div>
 
                                 <p onClick={redirectSignUp} className='text-center font-normal text-black underline py-4  dark:text-white'>Don't have an account ? SignUp</p>
