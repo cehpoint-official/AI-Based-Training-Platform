@@ -146,7 +146,7 @@ const SignIn = () => {
                                 <div className='text-center pt-5'>
                                     <Button onClick={handleGoogleSignIn} className='flex items-center justify-center text-center dark:bg-white dark:text-black bg-black text-white font-bold rounded-none w-full enabled:hover:bg-black enabled:focus:bg-black enabled:focus:ring-transparent dark:enabled:hover:bg-white dark:enabled:focus:bg-white dark:enabled:focus:ring-transparent'>
                                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCWKGr_E3qM7B-B-_xwIZyF12n3sK3eM1q5w&s" alt="Google" className='w-6 h-6 mr-2 rounded-xl'/>
-                                        Sign In with Google
+                                        Sign In with Google 
                                     </Button>
                                 </div>
 
