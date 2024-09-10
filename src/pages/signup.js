@@ -10,6 +10,9 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineLoading } from 'react-icons/ai';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth, db } from '../firebase/firebaseConfig'; 
+import { setDoc, doc } from 'firebase/firestore';
 
 
 const SignUp = () => {
@@ -136,8 +139,30 @@ const SignUp = () => {
 
     }
 
+    const handleGoogleSignIn = async () => {
+        const provider = new GoogleAuthProvider(); 
+        try {
+            const result = await signInWithPopup(auth, provider); 
+            const user = result.user; 
+            await setDoc(doc(db, "Users", user.uid), {
+                email: user.email,
+                firstName: user.displayName.split(' ')[0],
+                lastName: user.displayName.split(' ').slice(1).join(' ') || '',
+                photo: user.photoURL,
+            });
+            sessionStorage.setItem('auth', true);
+            sessionStorage.setItem('email', user.email);
+            sessionStorage.setItem('mName', user.displayName);
+            sessionStorage.setItem('uid', user.uid);
+            redirectHome();
+        } catch (error) {
+            console.error('Google Sign-In Error:', error);
+            showToast('Google Sign-In Error');
+        }
+    };
+
     return (
-        <GoogleOAuthProvider clientId="<id>">
+        <GoogleOAuthProvider clientId="<ftrxT8HqeWUNZeaeGKoZ2PNXTH42>">
             <Flowbite>
                 <div className="flex h-screen dark:bg-black no-scrollbar">
 
@@ -178,14 +203,10 @@ const SignUp = () => {
                                 <Button isProcessing={processing} processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />} className='items-center justify-center text-center dark:bg-white dark:text-black bg-black text-white font-bold rounded-none w-full enabled:hover:bg-black enabled:focus:bg-black enabled:focus:ring-transparent dark:enabled:hover:bg-white dark:enabled:focus:bg-white dark:enabled:focus:ring-transparent' type="submit">Submit</Button>
 
                                 <div className='text-center pt-5'>
-                                    <GoogleLogin
-                                        onSuccess={response => {
-                                            console.log('Google login success:', response);
-                                        }}
-                                        onError={error => {
-                                            console.error('Google login error:', error);
-                                        }}
-                                    />
+                                    <Button onClick={handleGoogleSignIn} className='flex items-center justify-center text-center dark:bg-white dark:text-black bg-black text-white font-bold rounded-none w-full enabled:hover:bg-black enabled:focus:bg-black enabled:focus:ring-transparent dark:enabled:hover:bg-white dark:enabled:focus:bg-white dark:enabled:focus:ring-transparent'>
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCWKGr_E3qM7B-B-_xwIZyF12n3sK3eM1q5w&s" alt="Google" className='w-6 h-6 mr-2 rounded-xl'/>
+                                        Sign up with Google
+                                    </Button>
                                 </div>
 
                                 <p onClick={redirectSignIn} className='text-center font-normal text-black underline pt-4  dark:text-white'>Already have an account ? SignIn</p>
