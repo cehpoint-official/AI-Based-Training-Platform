@@ -7,7 +7,7 @@ import { AiOutlineLoading } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import { serverURL } from '../constants';
 import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
+//  import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
 
@@ -42,7 +42,8 @@ const Profile = () => {
         }
         setProcessing(true);
         const uid = sessionStorage.getItem('uid');
-        const postURL = serverURL + '/api/profile';
+        // const postURL = serverURL + '/api/profile';
+        const postURL = `${serverURL}/api/profile`;
         try {
             const response = await axios.post(postURL, { email, mName, password, uid });
             if (response.data.success) {
@@ -53,8 +54,17 @@ const Profile = () => {
             } else {
                 showToast(response.data.message);
             }
-        } catch (error) {
+         } catch (error) {
+    
+         
+        if (error.response && error.response.status === 404) {
+            showToast('Resource not found. Please check the URL.');
+        } 
+
+        else {
+            console.error('Error:', error.response || error.message); 
             showToast('Internal Server Error');
+        }
         }
     }
 

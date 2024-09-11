@@ -35,17 +35,17 @@ const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 const unsplash = createApi({ accessKey: process.env.UNSPLASH_ACCESS_KEY });
 
 //SCHEMA
-const adminSchema = new mongoose.Schema({
-    email: { type: String, unique: true, required: true },
-    mName: String,
-    type: { type: String, required: true },
-    total: { type: Number, default: 0 },
-    terms: { type: String, default: '' },
-    privacy: { type: String, default: '' },
-    cancel: { type: String, default: '' },
-    refund: { type: String, default: '' },
-    billing: { type: String, default: '' }
-});
+// const adminSchema = new mongoose.Schema({
+//     email: { type: String, unique: true, required: true },
+//     mName: String,
+//     // type: { type: String, required: true },
+//     // total: { type: Number, default: 0 },
+//     // terms: { type: String, default: '' },
+//     // privacy: { type: String, default: '' },
+//     // cancel: { type: String, default: '' },
+//     // refund: { type: String, default: '' },
+//     // billing: { type: String, default: '' }
+// });
 const userSchema = new mongoose.Schema({
     email: { type: String, unique: true, required: true },
     mName: String,
@@ -87,7 +87,7 @@ const User = mongoose.model('User', userSchema);
 const Course = mongoose.model('Course', courseSchema);
 // const Subscription = mongoose.model('Subscription', subscriptionSchema);
 // const Contact = mongoose.model('Contact', contactShema);
-const Admin = mongoose.model('Admin', adminSchema);
+// const Admin = mongoose.model('Admin', adminSchema);
 
 //REQUEST
 
@@ -108,8 +108,8 @@ app.post('/api/signup', async (req, res) => {
         } else {
             const newUser = new User({ email, mName, password, type });
             await newUser.save();
-            const newAdmin = new Admin({ email, mName, type: 'main' });
-            await newAdmin.save();
+            // const newAdmin = new Admin({ email, mName, type: 'main' });
+            // await newAdmin.save();
             res.json({ success: true, message: 'Account created successfully', userId: newUser._id });
         }
     } catch (error) {

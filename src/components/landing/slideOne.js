@@ -22,7 +22,7 @@ const SlideOne = () => {
             <p className="text-center text-2xl text-black mt-6 max-w-2xl font-medium max-md:text-xs dark:text-white">
                 {/* Revolutionize your learning journey with our AI Course Generator SaaS
                 Effortlessly create engaging and personalized courses tailored to your needs */}
-                Automated Cousrse Authoring ,Training & Assessment
+                Automated Cousrse Authoring ,Training & Assessment   
             </p>
 
             <div className="flex space-x-4 mb-4 mt-6">
@@ -37,7 +37,8 @@ const SlideOne = () => {
             <img
                 src={slide}
                 alt="Your Alt Text"
-                className="w-full max-w-screen-xl mx-auto my-10 md:my-10"
+                // className="w-full max-w-screen-xl mx-auto my-10 md:my-10"
+                className="w-100%"
             />
         </div>
     );

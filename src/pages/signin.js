@@ -57,7 +57,8 @@ const SignIn = () => {
             showToast('Please fill in all required fields');
             return;
         }
-        const postURL = serverURL + '/api/signin';
+        // const postURL = serverURL + '/api/signin';
+        const postURL = `${serverURL}/api/profile`;
         try {
             setProcessing(true);
             const response = await axios.post(postURL, { email, password });
@@ -73,7 +74,14 @@ const SignIn = () => {
                 showToast(response.data.message);
             }
         } catch (error) {
-            showToast('Internal Server Error');
+            if (error.response && error.response.status === 404) {
+                showToast('Resource not found. Please check the URL.');
+            } 
+    
+            else {
+                console.error('Error:', error.response || error.message); 
+                showToast('Internal Server Error');
+            }
         }
     };
 
