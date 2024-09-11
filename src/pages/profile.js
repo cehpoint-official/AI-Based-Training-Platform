@@ -58,7 +58,14 @@ const Profile = () => {
                 showToast(response.data.message);
             }
         } catch (error) {
-            showToast('Internal Server Error');
+            if (error.response && error.response.status === 404) {
+                showToast('Resource not found. Please check the URL.');
+            } 
+            
+            else {
+                console.error('Error:', error.response || error.message); 
+                showToast('Internal Server Error');
+            }
         }
     }
 
@@ -70,7 +77,7 @@ const Profile = () => {
         }
         setProcessing(true);
         const uid = sessionStorage.getItem('uid');
-        const postURL = serverURL + '/api/profile'; 
+        const postURL = `${serverURL}/api/profile`; 
         try {
             const response = await axios.post(postURL, { email, mName, apiKey, uid });
             if (response.data.success) {
@@ -81,7 +88,14 @@ const Profile = () => {
                 showToast(response.data.message);
             }
         } catch (error) {
-            showToast('Internal Server Error');
+            if (error.response && error.response.status === 404) {
+                showToast('Resource not found. Please check the URL.');
+            } 
+            
+            else {
+                console.error('Error:', error.response || error.message); // Log detailed error
+                showToast('Internal Server Error');
+            }
         }
     }
 
@@ -117,7 +131,7 @@ const Profile = () => {
                                         </div>
                                         <input value={apiKey} onChange={(e) => setApiKey(e.target.value)} className='focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none block w-full dark:bg-black dark:border-white dark:text-white' id="apiKey" type="text" />
                                     </div>
-                                    <p className='text-center text-sm text-gray-500 dark:text-gray-400 mb-4'>
+                                    <p className='text-center text-sm text-gray-500 dark:text-gray-400 mb-5'>
                                         To obtain your Gemini API key, log in to your Gemini account, navigate to the API section, and generate a new API key. Copy the key and paste it here. 
                                         For more details on how to obtain your Gemini API key, visit the <a href="https://docs.gemini.com/rest-api/keys/" target="_blank" rel="noopener noreferrer" className='text-blue-500 hover:underline'>Gemini API documentation</a>.
                                     </p>
