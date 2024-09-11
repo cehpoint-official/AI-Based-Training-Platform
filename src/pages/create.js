@@ -1,4 +1,4 @@
-    // eslint-disable-next-line 
+// eslint-disable-next-line 
 import React, { useEffect, useState } from 'react';
 import Header from '../components/header';
 import Footers from '../components/footers';
@@ -12,11 +12,14 @@ import { serverURL } from '../constants';
 const Create = () => {
 
     const maxSubtopics = 5;
+    const maxCoursesPerDay = 5;
     const [formValues, setFormValues] = useState([{ sub: "5" }]);
     const [processing, setProcessing] = useState(false);
     const [selectedValue, setSelectedValue] = useState('10');
     const [selectedType, setSelectedType] = useState('Text & Image Course');
-    
+    const [coursesCreatedToday, setCoursesCreatedToday] = useState(0); 
+    const [showApiKeyInput, setShowApiKeyInput] = useState(false); 
+    const [showUpdateKeyPrompt, setShowUpdateKeyPrompt] = useState(false);
     // const [paidMember, setPaidMember] = useState(false);
     // eslint-disable-next-line 
     const [lableText, setLableText] = useState('For free member sub topics is limited to 4');
@@ -30,6 +33,15 @@ const Create = () => {
     //     }
 
     // }, []);
+
+    useEffect(() => {
+        const lastReset = sessionStorage.getItem('lastReset');
+        if (lastReset && new Date().toDateString() !== new Date(parseInt(lastReset)).toDateString()) {
+            sessionStorage.setItem('coursesCreatedToday', '0');
+        }
+        sessionStorage.setItem('lastReset', new Date().getTime().toString());
+        setCoursesCreatedToday(parseInt(sessionStorage.getItem('coursesCreatedToday') || '0'));
+    }, []);
 
     let handleChange = (i, e) => {
         let newFormValues = [...formValues];
@@ -77,7 +89,7 @@ const Create = () => {
         });
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const subtopics = [];
         setProcessing(true);
@@ -98,6 +110,15 @@ const Create = () => {
             showToast('Please fill in all required fields');
             return;
         }
+
+        if (coursesCreatedToday >= maxCoursesPerDay) {
+            setShowUpdateKeyPrompt(true); 
+            setProcessing(false);
+            showToast('You have exceeded the daily limit of 5 courses. Redirecting to update your API key.');
+            
+            return;
+        }
+
 
         const prompt = `Generate a list of Strict ${selectedValue} topics and any number sub topic for each topic for main title ${mainTopic.toLowerCase()}, everything in single line. Those ${selectedValue} topics should Strictly include these topics :- ${subtopics.join(', ').toLowerCase()}. Strictly Keep theory, youtube, image field empty. Generate in the form of JSON in this format {
             "${mainTopic.toLowerCase()}": [
@@ -142,7 +163,10 @@ const Create = () => {
       ]
       }`;
 
-        sendPrompt(prompt, mainTopic, selectedType)
+        await sendPrompt(prompt, mainTopic, selectedType)
+
+        setCoursesCreatedToday(coursesCreatedToday + 1);
+        sessionStorage.setItem('coursesCreatedToday', (coursesCreatedToday + 1).toString());
 
     };
 
@@ -168,6 +192,7 @@ const Create = () => {
         }
     }
      
+
  // eslint-disable-next-line 
     const handleRadioChange = (event) => {
         setSelectedValue(event.target.value);
@@ -177,6 +202,7 @@ const Create = () => {
         setSelectedType(event.target.value);
     };
 
+  
     return (
         <div className='h-screen flex flex-col'>
             <Header isHome={true} className="sticky top-0 z-50" />
@@ -213,6 +239,13 @@ const Create = () => {
                                 <Button type="button" onClick={() => removeFormFields()} className='mb-6 items-center justify-center text-center border-black dark:border-white dark:bg-black dark:text-white bg-white text-black font-bold rounded-none w-full enabled:hover:bg-white enabled:focus:bg-white enabled:focus:ring-transparent dark:enabled:hover:bg-black dark:enabled:focus:bg-black dark:enabled:focus:ring-transparent'>Remove Sub-Topic</Button>
                             )}
 
+                            {showUpdateKeyPrompt && (
+                                <div className='mb-6 text-center'>
+                                    <p className='text-red-500 dark:text-red-400 mb-5'>You have exceeded the daily limit of {maxCoursesPerDay} courses. Please update your API key.</p>
+                                    <Button onClick={() => navigate('/profile')} className='mb-6 items-center justify-center text-center border-black dark:border-white dark:bg-black dark:text-white bg-white text-black font-bold rounded-none w-full enabled:hover:bg-white enabled:focus:bg-white enabled:focus:ring-transparent dark:enabled:hover:bg-black dark:enabled:focus:bg-black dark:enabled:focus:ring-transparent'>Go to Profile to Update Key</Button>
+                                </div>
+                            )}
+
                             {/* <Label className="font-bold text-black dark:text-white" htmlFor="nosubtopic" value={lableText} />
                             <fieldset className="flex max-w-md flex-col gap-4 mt-2">
                                 <div className="flex items-center gap-2 px-2 h-11 focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none w-full dark:bg-black dark:border-white dark:text-white">
@@ -226,6 +259,10 @@ const Create = () => {
                             </fieldset>
 
                             <Label className="font-bold text-black dark:text-white" htmlFor="nosubtopic" value="Select Course Type" /> */}
+
+
+
+
                             <fieldset className="flex max-w-md flex-col gap-4 mt-2">
                                 <div className="flex items-center gap-2 px-2 h-11 focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none w-full dark:bg-black dark:border-white dark:text-white">
                                     <Radio onChange={handleRadioChangeType} className='text-black border-black dark:text-white dark:border-white dark:focus:text-black focus:ring-black dark:focus:ring-white dark:focus:bg-black ' id="textcourse" name="value1" value="Text & Image Course" defaultChecked />
