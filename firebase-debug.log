@@ -1,0 +1,43 @@
+[debug] [2024-09-11T04:27:42.559Z] ----------------------------------------------------------------------
+[debug] [2024-09-11T04:27:42.561Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2024-09-11T04:27:42.561Z] CLI Version:   13.16.0
+[debug] [2024-09-11T04:27:42.561Z] Platform:      win32
+[debug] [2024-09-11T04:27:42.561Z] Node Version:  v20.14.0
+[debug] [2024-09-11T04:27:42.561Z] Time:          Wed Sep 11 2024 09:57:42 GMT+0530 (India Standard Time)
+[debug] [2024-09-11T04:27:42.561Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-09-11T04:27:42.622Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-09-11T04:27:42.622Z] > authorizing via signed-in user (sushanthb1425@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\vs code\internships\cehpoint\AI-Based-Training-Platform1
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2024-09-11T04:29:24.821Z] Using project from CLI flag: ai-based-training-platform
+[debug] [2024-09-11T04:29:24.828Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/ai-based-training-platform [none]
+[debug] [2024-09-11T04:29:25.452Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/ai-based-training-platform 403
+[debug] [2024-09-11T04:29:25.453Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/ai-based-training-platform {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2024-09-11T04:29:25.454Z] HTTP Error: 403, The caller does not have permission
+[debug] [2024-09-11T04:29:25.597Z] FirebaseError: HTTP Error: 403, The caller does not have permission
+    at responseToError (C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:49:12)
+    at RetryOperation._fn (C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:305:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[error] 
+[error] Error: Failed to get Firebase project ai-based-training-platform. Please make sure the project exists and your account has permission to access it.
