@@ -18,7 +18,7 @@ const Quiz = ({ courseTitle, onCompletion }) => {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${process.env.API_KEY}` // Use the API key here
+                        'Authorization': `Bearer ${process.env.REACT_APP_API}` // Use the API key here
                     },
                     body: JSON.stringify({ courseTitle })
                 });

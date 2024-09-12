@@ -17,8 +17,11 @@ const showdown = require('showdown');
 
 //INITIALIZE
 const app = express();
-app.use(cors());
-const PORT = process.env.PORT;
+app.use(cors({
+    origin: 'http://localhost:3000' // Allow only localhost:3000, or '*' for all origins
+}))
+
+// const PORT = process.env.PORT;
 app.use(bodyParser.json());
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const transporter = nodemailer.createTransport({
@@ -296,7 +299,7 @@ app.post('/api/prompt', async (req, res) => {
 //GET GENERATE THEORY
 app.post('/api/generate', async (req, res) => {
     const receivedData = req.body;
-
+    res.json({ message: "CORS enabled" });
     const promptString = receivedData.prompt;
 
     const safetySettings = [
@@ -1871,6 +1874,7 @@ app.post('/api/chat', async (req, res) => {
 
 
 //LISTEN
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+const port = process.env.PORT || 5000;
+app.listen(port, () => { 
+    console.log(`Server is running on port ${port}`);
 });
