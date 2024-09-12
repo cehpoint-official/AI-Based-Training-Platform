@@ -55,16 +55,16 @@ const Profile = () => {
                 showToast(response.data.message);
             }
          } catch (error) {
-    
-         
-        if (error.response && error.response.status === 404) {
-            showToast('Resource not found. Please check the URL.');
-        } 
-
-        else {
-            console.error('Error:', error.response || error.message); 
             showToast('Internal Server Error');
-        }
+         
+        // if (error.response && error.response.status === 404) {
+        //     showToast('Resource not found. Please check the URL.');
+        // } 
+
+        // else {
+        //     console.error('Error:', error.response || error.message); 
+        //     showToast('Internal Server Error');
+        // }
         }
     }
 
