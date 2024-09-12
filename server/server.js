@@ -1874,3 +1874,17 @@ app.post('/api/chat', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
+app.post('/api/project-suggestions', async (req, res) => {
+    const { prompt } = req.body;
+
+    try {
+        // Replace with your AI generation logic or call to another service
+        const response = await someAIService.generateProjectSuggestions(prompt);
+        res.json({ suggestions: response.data });
+    } catch (error) {
+        console.error("Error generating project suggestions:", error);
+        res.status(500).send("Error generating project suggestions");
+    }
+});

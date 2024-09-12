@@ -35,6 +35,9 @@ const Course = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+    const [projectSuggestions, setProjectSuggestions] = useState(null);
+    const [submissionInstructions, setSubmissionInstructions] = useState(null);
+
     const handleOnClose = () => setIsOpenDrawer(false);
 
     const CountDoneTopics = () => {
@@ -68,36 +71,52 @@ const Course = () => {
         width: '100%',
     };
 
-    async function finish() {
-        if (sessionStorage.getItem('first') === 'true') {
-            if (!end) {
-                const today = new Date();
-                const formattedDate = today.toLocaleDateString('en-GB');
-                navigate('/certificate', { state: { courseTitle: mainTopic, end: formattedDate } });
-            } else {
-                navigate('/certificate', { state: { courseTitle: mainTopic, end: end } });
-            }
+    const finish = async () => {
+        if (percentage === 100) {
 
-        } else {
-            const dataToSend = {
-                courseId: courseId
-            };
-            try {
-                const postURL = serverURL + '/api/finish';
-                const response = await axios.post(postURL, dataToSend);
-                if (response.data.success) {
-                    const today = new Date();
-                    const formattedDate = today.toLocaleDateString('en-GB');
-                    sessionStorage.setItem('first', 'true');
-                    sendEmail(formattedDate);
-                } else {
-                    finish()
+                try {
+                    const dataToSend = {
+                        prompt: `Suggest a mini project based on the topics covered in this course. Include the following details: project description, objectives, and key points.`
+                    };
+                    const postURL = serverURL + '/api/project-suggestions';
+                    const res = await axios.post(postURL, dataToSend);
+                    setProjectSuggestions(res.data.suggestions);
+        
+                    setSubmissionInstructions(`To submit your project, please push your code to a GitHub repository and share the repository link with us via email at assessment@cehpoint.co.in. Additionally, you can send a short video explaining your project to our submission email. Thank you!`);
+                    const certificateUrl = await getCertificateUrl(); 
+
+                    if (certificateUrl) {
+                        window.open(certificateUrl, '_blank');
+                    } else {
+                        console.error("Certificate URL is not available.");
+                    }
+                    } catch (error) {
+                    console.error("Error fetching project suggestions:", error);
                 }
-            } catch (error) {
-                finish()
-            }
         }
-    }
+    };
+    const getCertificateUrl = async () => {
+        try {
+            const response = await fetch('/api/get-certificate-url', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: 'your-user-id' }) 
+            });
+    
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
+    
+            const data = await response.json();
+            return data.certificateUrl; 
+        } catch (error) {
+            console.error('Error fetching certificate URL:', error);
+            return null;
+        }
+    };
+    
+    
+    
 
     async function sendEmail(formattedDate) {
         const userName = sessionStorage.getItem('mName');
@@ -615,10 +634,33 @@ const Course = () => {
         }
     };
 
+    useEffect(() => {
+        if (isComplete) {
+            const fetchProjectSuggestions = async () => {
+                try {
+                    const response = await fetch('/api/project-suggestions', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt: `Generate project suggestions for ${mainTopic}` })
+                    });
+                    const data = await response.json();
+                    setProjectSuggestions(data.suggestions);
+                    setSubmissionInstructions('To submit your project, please create a GitHub repository and share the link with us via email.');
+                } catch (error) {
+                    console.error('Error fetching project suggestions:', error);
+                }
+            };
+    
+            fetchProjectSuggestions();
+        }
+    }, [isComplete, mainTopic]);
+
+    
+
+    
     return (
         <>
-            {!mainTopic ? <></>
-                :
+            {!mainTopic ? null :
                 <div>
                     <div onClick={() => setIsOpenDrawer(true)} className="m-5 fixed bottom-4 right-4 z-40 w-12 h-12 bg-black text-white rounded-full flex justify-center items-center shadow-md dark:text-black dark:bg-white">
                         <IoChatbubbleEllipses size={20} />
@@ -626,13 +668,16 @@ const Course = () => {
                     <div className="flex bg-white dark:bg-black md:hidden pb-10 overflow-y-auto">
                         <div className={`fixed inset-0 bg-black opacity-50 z-50 ${isSidebarOpen ? 'block' : 'hidden'}`} onClick={toggleSidebar}></div>
                         <div className="flex-1 flex flex-col overflow-hidden">
-
                             <div>
                                 <Navbar fluid className='py-3 dark:bg-black bg-white border-black dark:border-white md:border-b'>
                                     <Navbar.Brand className='ml-1'>
-
                                         {isComplete ?
-                                            <p onClick={finish} className='mr-3 underline text-black dark:text-white font-normal'>Certificate</p>
+                                            <button
+                                                onClick={finish}
+                                                className='mr-3 underline text-black dark:text-white font-normal cursor-pointer'
+                                            >
+                                                Download Certificate
+                                            </button>
                                             :
                                             <div className='w-7 h-7 mr-3'>
                                                 <CircularProgressbar
@@ -650,7 +695,6 @@ const Course = () => {
                                                 />
                                             </div>
                                         }
-
                                         <TruncatedText text={mainTopic} len={6} />
                                     </Navbar.Brand>
                                     <div className='flex md:hidden justify-center items-center'>
@@ -677,31 +721,25 @@ const Course = () => {
                                         </div>
                                     </Navbar.Collapse>
                                 </Navbar>
-
                             </div>
-
                             <Sidebar
                                 aria-label="Default sidebar example"
-                                theme={style}
-                                className={`md:border-r md:border-black md:dark:border-white dark:bg-black fixed inset-y-0 left-0 w-64  bg-white z-50 overflow-y-auto transition-transform transform lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+                                theme={storedTheme}
+                                className={`md:border-r md:border-black md:dark:border-white dark:bg-black fixed inset-y-0 left-0 w-64 bg-white z-50 overflow-y-auto transition-transform transform lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
                             >
                                 <LogoComponent isDarkMode={storedTheme} />
                                 <Sidebar.Items className='mt-6'>
-
                                     {jsonData && renderTopicsAndSubtopics(jsonData[mainTopic.toLowerCase()])}
-
                                 </Sidebar.Items>
                             </Sidebar>
                             <div className='mx-5 overflow-y-auto bg-white dark:bg-black'>
                                 <p className='font-black text-black dark:text-white text-lg'>{selected}</p>
-
                                 <div className='overflow-hidden mt-5 text-black dark:text-white text-base pb-10 max-w-full'>
                                     {type === 'video & text course' ?
                                         <div>
-                                            <YouTube key={media} className='mb-5' videoId={media} opts={optsMobile} />
+                                            <YouTube key={media} className='mb-5' videoId={media} opts={{}} />
                                             <StyledText text={theory} />
                                         </div>
-
                                         :
                                         <div>
                                             <StyledText text={theory} />
@@ -709,26 +747,43 @@ const Course = () => {
                                         </div>
                                     }
                                 </div>
+                                {isComplete && projectSuggestions && (
+                                    <div className='mt-10'>
+                                        <h2 className='text-xl font-bold text-black dark:text-white'>Project Suggestions</h2>
+                                        <ul className='list-disc list-inside mt-5 text-black dark:text-white'>
+                                            {projectSuggestions.map((suggestion, index) => (
+                                                <li key={index}>{suggestion}</li>
+                                            ))}
+                                        </ul>
+                                        <div className='mt-5 text-black dark:text-white'>
+                                            <p>{submissionInstructions}</p>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
-
                     <div className='flex flex-row overflow-y-auto h-screen max-md:hidden'>
                         <Sidebar
-                            theme={style}
-                            aria-label="Default sidebar example">
+                            theme={storedTheme}
+                            aria-label="Default sidebar example"
+                        >
                             <LogoComponent isDarkMode={storedTheme} />
                             <Sidebar.Items className='mt-6'>
-
                                 {jsonData && renderTopicsAndSubtopics(jsonData[mainTopic.toLowerCase()])}
-
                             </Sidebar.Items>
                         </Sidebar>
                         <div className='overflow-y-auto flex-grow flex-col'>
                             <Navbar fluid className='py-3 dark:bg-black bg-white border-black dark:border-white md:border-b'>
                                 <Navbar.Brand className='ml-1'>
                                     {isComplete ?
-                                        <p onClick={finish} className='mr-3 underline text-black dark:text-white font-normal'>Download Certificate</p> :
+                                        <button
+                                            onClick={finish}
+                                            className='mr-3 underline text-black dark:text-white font-normal cursor-pointer'
+                                        >
+                                            Download Certificate
+                                        </button>
+                                        :
                                         <div className='w-8 h-8 mr-3'>
                                             <CircularProgressbar
                                                 value={percentage}
@@ -755,30 +810,39 @@ const Course = () => {
                             </Navbar>
                             <div className='px-5 bg-white dark:bg-black pt-5'>
                                 <p className='font-black text-black dark:text-white text-xl'>{selected}</p>
-
                                 <div className='overflow-hidden mt-5 text-black dark:text-white text-base pb-10 max-w-full'>
-
                                     {type === 'video & text course' ?
                                         <div>
-                                            <YouTube key={media} className='mb-5' videoId={media} opts={opts} />
+                                            <YouTube key={media} className='mb-5' videoId={media} opts={{}} />
                                             <StyledText text={theory} />
                                         </div>
-
                                         :
                                         <div>
                                             <StyledText text={theory} />
                                             <img className='overflow-hidden p-10' src={media} alt="Media" />
                                         </div>
                                     }
-
                                 </div>
+                                {isComplete && projectSuggestions && (
+                                    <div className='mt-10'>
+                                        <h2 className='text-xl font-bold text-black dark:text-white'>Project Suggestions</h2>
+                                        <ul className='list-disc list-inside mt-5 text-black dark:text-white'>
+                                            {projectSuggestions.map((suggestion, index) => (
+                                                <li key={index}>{suggestion}</li>
+                                            ))}
+                                        </ul>
+                                        <div className='mt-5 text-black dark:text-white'>
+                                            <p>{submissionInstructions}</p>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
                     <Drawer open={isOpenDrawer} className='z-50 no-scrollbar bg-white dark:bg-black' position="right" onClose={handleOnClose}>
                         <div style={{ height: 'calc(100% - 50px)', overflowY: 'auto' }} className='no-scrollbar'>
                             {messages.map((msg, index) => (
-                                <div key={index} style={{ alignItems: msg.sender === 'user' ? 'flex-end' : 'flex-start', display: 'flex', flexDirection: 'column', }}>
+                                <div key={index} style={{ alignItems: msg.sender === 'user' ? 'flex-end' : 'flex-start', display: 'flex', flexDirection: 'column' }}>
                                     <div style={{ borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderTopLeftRadius: msg.sender === 'user' ? 5 : 0, borderTopRightRadius: msg.sender === 'user' ? 0 : 5, overflow: 'hidden' }}>
                                         {msg.sender === 'user' ?
                                             <div style={{ backgroundColor: storedTheme === 'true' ? '#F9F9F9' : '#282C34', padding: 16, color: storedTheme === 'true' ? '#01020A' : '#fff', margin: 4 }} className='text-black dark:text-white text-xs' dangerouslySetInnerHTML={{ __html: msg.text }} />
@@ -791,7 +855,7 @@ const Course = () => {
                         </div>
                         <div className='flex flex-row mt-4'>
                             <input value={newMessage} placeholder='Ask Something...' onChange={(e) => setNewMessage(e.target.value)} className='h-12 focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none block w-full dark:bg-black dark:border-white dark:text-white' type="text" />
-                            <div onClick={sendMessage} className='h-12 text-black  dark:text-white ml-2 content-center'>
+                            <div onClick={sendMessage} className='h-12 text-black dark:text-white ml-2 content-center'>
                                 <IoSend size={20} />
                             </div>
                         </div>
@@ -800,6 +864,7 @@ const Course = () => {
             }
         </>
     );
+    
 };
 
 
