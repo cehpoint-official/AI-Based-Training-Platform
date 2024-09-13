@@ -14,8 +14,8 @@ currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+report a vulnerability security@cehpoint.co.in
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+Follow up daily and get an update on a
+reported vulnerability, Expect ₹10000 if vulnerability is accepted or
+declined then a appreciation for the try.
