@@ -162,7 +162,7 @@ const SignUp = () => {
     };
 
     return (
-        <GoogleOAuthProvider clientId="<ftrxT8HqeWUNZeaeGKoZ2PNXTH42>">
+        <GoogleOAuthProvider clientId="<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>">
             <Flowbite>
                 <div className="flex h-screen dark:bg-black no-scrollbar">
 
