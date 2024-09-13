@@ -299,7 +299,6 @@ app.post('/api/prompt', async (req, res) => {
 //GET GENERATE THEORY
 app.post('/api/generate', async (req, res) => {
     const receivedData = req.body;
-    res.json({ message: "CORS enabled" });
     const promptString = receivedData.prompt;
 
     const safetySettings = [

@@ -1,4 +1,5 @@
-// import React, { useEffect } from 'react';
+// eslint-disable-next-line
+import React, { useEffect } from 'react';
 import Header from '../components/header';
 import Footers from '../components/footers';
 import SlideOne from '../components/landing/slideOne';

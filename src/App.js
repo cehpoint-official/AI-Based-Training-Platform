@@ -28,7 +28,7 @@ import Contacts from './admin/contacts';
 
 
 
-import Error from './pages/error';
+import ErrorPage from './pages/errorPage';
 
 
 function App() {
@@ -73,7 +73,7 @@ function App() {
           <Route path='/courses' element={<Courses />} />
           <Route path='/admins' element={<Admins />} />
           <Route path='/contacts' element={<Contacts />} />
-         <Route path="*" element={<Error />} />
+         <Route path="*" element={<ErrorPage/>} />
         </Routes>
       </div>
     </Router>

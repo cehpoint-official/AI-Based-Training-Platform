@@ -44,10 +44,13 @@ const Certificate = () => {
             // Example axios call to fetch data related to the course or user
             axios.get('/api/course-details', { params: { title: courseTitle } })
                 .then(response => {
-                    // Handle the response
+                    const courseDetails = response.data;
+                    console.log('Course details:', courseDetails);
                 })
                 .catch(error => {
-                    console.error('Error fetching course details', error);
+                    console.error(`Error fetching details for course: ${courseTitle}`, error);
+                    showToast('Failed to fetch course details. Please try again later.')
+
                 });
         }
     }, [courseTitle, navigate]);
