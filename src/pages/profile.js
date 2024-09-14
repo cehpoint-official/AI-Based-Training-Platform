@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useState } from 'react';
 import Header from '../components/header';
 import Footers from '../components/footers';
@@ -6,13 +7,22 @@ import { AiOutlineLoading } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import { serverURL } from '../constants';
 import axios from 'axios';
+// import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
+
+    const [mName, setName] = useState(sessionStorage.getItem('mName'));
+    const [email, setEmail] = useState(sessionStorage.getItem('email'));
     const [password, setPassword] = useState('');
     const [processing, setProcessing] = useState(false);
     const [showPasswordForm, setShowPasswordForm] = useState(false);
     const [showApiKeyForm, setShowApiKeyForm] = useState(false);
     const [apiKey, setApiKey] = useState('');
+
+    // const navigate = useNavigate();
+    // function redirectSubscription() {
+    //     navigate("/subscription");
+    // }
 
     const showToast = async (msg) => {
         setProcessing(false);
@@ -29,18 +39,20 @@ const Profile = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const email = sessionStorage.getItem('email');
-        if (!email || !password) {
+        if (!email || !mName) {
             showToast('Please fill in all required fields');
             return;
         }
         setProcessing(true);
         const uid = sessionStorage.getItem('uid');
-        const postURL = `${serverURL}/api/profile`;
+        const postURL = serverURL + '/api/profile';
         try {
-            const response = await axios.post(postURL, { email, password, uid });
+            const response = await axios.post(postURL, { email, mName, password, uid });
             if (response.data.success) {
                 showToast(response.data.message);
+                sessionStorage.setItem('email', email);
+                sessionStorage.setItem('mName', mName);
+                setProcessing(false)
                 setPassword('');
             } else {
                 showToast(response.data.message);
@@ -48,12 +60,12 @@ const Profile = () => {
         } catch (error) {
             if (error.response && error.response.status === 404) {
                 showToast('Resource not found. Please check the URL.');
-            } else {
-                console.error('Error:', error.response || error.message);
+            } 
+            
+            else {
+                console.error('Error:', error.response || error.message); 
                 showToast('Internal Server Error');
             }
-        } finally {
-            setProcessing(false);
         }
     }
 
@@ -64,26 +76,26 @@ const Profile = () => {
             return;
         }
         setProcessing(true);
-        const email = sessionStorage.getItem('email');
         const uid = sessionStorage.getItem('uid');
-        const postURL = `${serverURL}/api/profile`;
+        const postURL = `${serverURL}/api/profile`; 
         try {
-            const response = await axios.post(postURL, { email, apiKey, uid });
+            const response = await axios.post(postURL, { email, mName, apiKey, uid });
             if (response.data.success) {
                 showToast(response.data.message);
-                setApiKey('');
+                setProcessing(false);
+                setApiKey(''); 
             } else {
                 showToast(response.data.message);
             }
         } catch (error) {
             if (error.response && error.response.status === 404) {
                 showToast('Resource not found. Please check the URL.');
-            } else {
-                console.error('Error:', error.response || error.message);
+            } 
+            
+            else {
+                console.error('Error:', error.response || error.message); // Log detailed error
                 showToast('Internal Server Error');
             }
-        } finally {
-            setProcessing(false);
         }
     }
 
