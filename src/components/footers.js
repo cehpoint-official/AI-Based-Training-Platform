@@ -15,13 +15,13 @@ const Footers = () => {
   function redirectContact() {
     navigate("/contact");
   }
-  function redirectTerms() {
-    navigate("/terms");
-  }
+  // function redirectTerms() {
+  //   navigate("/terms");
+  // }
 
-  function redirectPrivacy() {
-    navigate("/privacy");
-  }
+  // function redirectPrivacy() {
+  //   navigate("/privacy");
+  // }
 
   return (
     <Footer container className="shadow-none rounded-none dark:bg-black">
@@ -35,12 +35,12 @@ const Footers = () => {
             <p className="text-black font-bold mx-4 dark:text-white" onClick={redirectAbout}>
               About
             </p>
-            <p className="text-black  font-bold  mx-4 dark:text-white" onClick={redirectPrivacy}>
+            {/* <p className="text-black  font-bold  mx-4 dark:text-white" onClick={redirectPrivacy}>
               Privacy Policy
-            </p>
-            <p className="text-black  font-bold  mx-4 dark:text-white " onClick={redirectTerms}>
+            </p> */}
+            {/* <p className="text-black  font-bold  mx-4 dark:text-white " onClick={redirectTerms}>
               Terms
-            </p>
+            </p> */}
             <p className="text-black  font-bold  mx-4 dark:text-white" onClick={redirectContact}>
               Contact
             </p>

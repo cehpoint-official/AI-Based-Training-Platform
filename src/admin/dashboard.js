@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { Navbar } from 'flowbite-react';
+
 import React, { useEffect, useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import AdminSidebar from './components/adminsidebar';
@@ -19,11 +21,11 @@ const Dashboard = () => {
             const postURL = serverURL + `/api/dashboard`;
             const response = await axios.post(postURL);
             setData(response.data)
-            sessionStorage.setItem('terms', response.data.admin.terms)
-            sessionStorage.setItem('privacy', response.data.admin.privacy)
-            sessionStorage.setItem('cancel', response.data.admin.cancel)
-            // sessionStorage.setItem('refund', response.data.admin.refund)
-            // sessionStorage.setItem('billing', response.data.admin.billing)
+    //         // sessionStorage.setItem('terms', response.data.admin.terms)
+    //         // sessionStorage.setItem('privacy', response.data.admin.privacy)
+    //         // sessionStorage.setItem('cancel', response.data.admin.cancel)
+    //         // sessionStorage.setItem('refund', response.data.admin.refund)
+    //         // sessionStorage.setItem('billing', response.data.admin.billing)
         }
         dashboardData();
     }, []);
