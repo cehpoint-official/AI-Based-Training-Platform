@@ -54,18 +54,29 @@ const Profile = () => {
             } else {
                 showToast(response.data.message);
             }
-         } catch (error) {
-            showToast('Internal Server Error');
-         
-        // if (error.response && error.response.status === 404) {
-        //     showToast('Resource not found. Please check the URL.');
-        // } 
-
-        // else {
-        //     console.error('Error:', error.response || error.message); 
+        //  } catch (error) {
         //     showToast('Internal Server Error');
+         
+        // // if (error.response && error.response.status === 404) {
+        // //     showToast('Resource not found. Please check the URL.');
+        // // } 
+
+        // // else {
+        // //     console.error('Error:', error.response || error.message); 
+        // //     showToast('Internal Server Error');
+        // // }
         // }
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            showToast('Resource not found. Please check the URL.');
+        } 
+    
+        else {
+            console.error('Error:', error.response || error.message); 
+            showToast('Internal Server Error');
         }
+    }
+    
     }
 
     return (
