@@ -9,6 +9,11 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineLoading } from 'react-icons/ai';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth, db } from '../firebase/firebaseConfig'; 
+import { setDoc, doc } from 'firebase/firestore';
+
 
 const SignUp = () => {
 
@@ -134,60 +139,92 @@ const SignUp = () => {
 
     }
 
+    const handleGoogleSignIn = async () => {
+        const provider = new GoogleAuthProvider(); 
+        try {
+            const result = await signInWithPopup(auth, provider); 
+            const user = result.user; 
+            await setDoc(doc(db, "Users", user.uid), {
+                email: user.email,
+                firstName: user.displayName.split(' ')[0],
+                lastName: user.displayName.split(' ').slice(1).join(' ') || '',
+                photo: user.photoURL,
+            });
+            sessionStorage.setItem('auth', true);
+            sessionStorage.setItem('email', user.email);
+            sessionStorage.setItem('mName', user.displayName);
+            sessionStorage.setItem('uid', user.uid);
+            redirectHome();
+        } catch (error) {
+            console.error('Google Sign-In Error:', error);
+            showToast('Google Sign-In Error');
+        }
+    };
+
     return (
-        <Flowbite>
-            <div className="flex h-screen dark:bg-black no-scrollbar">
+        <GoogleOAuthProvider clientId="<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>">
+            <Flowbite>
+                <div className="flex h-screen dark:bg-black no-scrollbar">
 
-                <div className="flex-1 overflow-y-auto no-scrollbar">
+                    <div className="flex-1 overflow-y-auto no-scrollbar">
 
-                    <Navbar fluid className='p-8 dark:bg-black'>
-                        <Navbar.Brand href={websiteURL} className="ml-1">
-                            <LogoComponent isDarkMode={storedTheme} />
-                            <span className="self-center whitespace-nowrap text-2xl font-black dark:text-white ">{name}</span>
-                        </Navbar.Brand>
-                        <DarkModeToggle />
-                    </Navbar>
+                        <Navbar fluid className='p-8 dark:bg-black'>
+                            <Navbar.Brand href={websiteURL} className="ml-1">
+                                <LogoComponent isDarkMode={storedTheme} />
+                                <span className="self-center whitespace-nowrap text-2xl font-black dark:text-white ">{name}</span>
+                            </Navbar.Brand>
+                            <DarkModeToggle />
+                        </Navbar>
 
-                    <form onSubmit={handleSignup} className="max-w-sm m-auto py-4 no-scrollbar">
+                        <form onSubmit={handleSignup} className="max-w-sm m-auto py-4 no-scrollbar">
 
-                        <h1 className='text-center font-black text-5xl text-black dark:text-white'>SignUp</h1>
-                        <p className='text-center font-normal text-black py-4 dark:text-white'>Enter email & password to continue</p>
+                            <h1 className='text-center font-black text-5xl text-black dark:text-white'>SignUp</h1>
+                            <p className='text-center font-normal text-black py-4 dark:text-white'>Enter email & password to continue</p>
 
-                        <div className='py-6'>
-                            <div className='mb-6'>
-                                <div className="mb-2 block">
-                                    <Label className="font-bold text-black dark:text-white" htmlFor="name1" value="Name" />
+                            <div className='py-6'>
+                                <div className='mb-6'>
+                                    <div className="mb-2 block">
+                                        <Label className="font-bold text-black dark:text-white" htmlFor="name1" value="Name" />
+                                    </div>
+                                    <input value={mName} onChange={(e) => setName(e.target.value)} className='focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none block w-full dark:bg-black dark:border-white dark:text-white' id="name1" type="text" />
                                 </div>
-                                <input value={mName} onChange={(e) => setName(e.target.value)} className='focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none block w-full dark:bg-black dark:border-white dark:text-white' id="name1" type="text" />
-                            </div>
-                            <div className='mb-6'>
-                                <div className="mb-2 block">
-                                    <Label className="font-bold text-black dark:text-white" htmlFor="email1" value="Email" />
+                                <div className='mb-6'>
+                                    <div className="mb-2 block">
+                                        <Label className="font-bold text-black dark:text-white" htmlFor="email1" value="Email" />
+                                    </div>
+                                    <input value={email} onChange={(e) => setEmail(e.target.value)} className='focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none block w-full dark:bg-black dark:border-white dark:text-white' id="email1" type="email" />
                                 </div>
-                                <input value={email} onChange={(e) => setEmail(e.target.value)} className='focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none block w-full dark:bg-black dark:border-white dark:text-white' id="email1" type="email" />
-                            </div>
-                            <div className='mb-14'>
-                                <div className="mb-2 block">
-                                    <Label className="font-bold text-black dark:text-white" htmlFor="password1" value="Password" />
+                                <div className='mb-14'>
+                                    <div className="mb-2 block">
+                                        <Label className="font-bold text-black dark:text-white" htmlFor="password1" value="Password" />
+                                    </div>
+                                    <input value={password} onChange={(e) => setPassword(e.target.value)} className='focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none block w-full dark:bg-black dark:border-white dark:text-white' id="password1" type="password" />
                                 </div>
-                                <input value={password} onChange={(e) => setPassword(e.target.value)} className='focus:ring-black focus:border-black border border-black font-normal bg-white rounded-none block w-full dark:bg-black dark:border-white dark:text-white' id="password1" type="password" />
-                            </div>
-                            <Button isProcessing={processing} processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />} className='items-center justify-center text-center dark:bg-white dark:text-black bg-black text-white font-bold rounded-none w-full enabled:hover:bg-black enabled:focus:bg-black enabled:focus:ring-transparent dark:enabled:hover:bg-white dark:enabled:focus:bg-white dark:enabled:focus:ring-transparent' type="submit">Submit</Button>
-                            <p onClick={redirectSignIn} className='text-center font-normal text-black underline pt-4  dark:text-white'>Already have an account ? SignIn</p>
-                        </div>
+                                <Button isProcessing={processing} processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />} className='items-center justify-center text-center dark:bg-white dark:text-black bg-black text-white font-bold rounded-none w-full enabled:hover:bg-black enabled:focus:bg-black enabled:focus:ring-transparent dark:enabled:hover:bg-white dark:enabled:focus:bg-white dark:enabled:focus:ring-transparent' type="submit">Submit</Button>
 
-                    </form>
+                                <div className='text-center pt-5'>
+                                    <Button onClick={handleGoogleSignIn} className='flex items-center justify-center text-center dark:bg-white dark:text-black bg-black text-white font-bold rounded-none w-full enabled:hover:bg-black enabled:focus:bg-black enabled:focus:ring-transparent dark:enabled:hover:bg-white dark:enabled:focus:bg-white dark:enabled:focus:ring-transparent'>
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCWKGr_E3qM7B-B-_xwIZyF12n3sK3eM1q5w&s" alt="Google" className='w-6 h-6 mr-2 rounded-xl'/>
+                                        Sign up with Google
+                                    </Button>
+                                </div>
+
+                                <p onClick={redirectSignIn} className='text-center font-normal text-black underline pt-4  dark:text-white'>Already have an account ? SignIn</p>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div className="flex-1 hidden lg:flex items-center justify-center bg-gray-50 dark:bg-white">
+                        <img
+                            alt='logo'
+                            src={img}
+                            className="h-full bg-cover bg-center p-9"
+                        />
+                    </div>
                 </div>
-
-                <div className="flex-1 hidden lg:flex items-center justify-center bg-gray-50 dark:bg-white">
-                    <img
-                        alt='logo'
-                        src={img}
-                        className="h-full bg-cover bg-center p-9"
-                    />
-                </div>
-            </div>
-        </Flowbite>
+            </Flowbite>
+        </GoogleOAuthProvider>
     );
 };
 
