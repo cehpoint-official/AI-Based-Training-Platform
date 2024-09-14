@@ -45,18 +45,18 @@ const AdminSidebar = () => {
     function redirectTerms() {
         navigate("/editterms");
     }
-    function redirectRefund() {
-        navigate("/editrefund");
-    }
+    // function redirectRefund() {
+    //     navigate("/editrefund");
+    // }
     function redirectPrivacy() {
         navigate("/editprivacy");
     }
-    function redirectBilling() {
-        navigate("/editbilling");
-    }
-    function redirectCancel() {
-        navigate("/editcancellation");
-    }
+    // function redirectBilling() {
+    //     navigate("/editbilling");
+    // }
+    // function redirectCancel() {
+    //     navigate("/editcancellation");
+    // }
 
 
     return (
@@ -97,7 +97,7 @@ const AdminSidebar = () => {
                     <IoIosDocument size={18} />
                     <p className='font-bold text-base ml-2'>Privacy</p>
                 </div>
-                <div className='flex flex-row items-center mt-6' onClick={redirectCancel}>
+                {/* <div className='flex flex-row items-center mt-6' onClick={redirectCancel}>
                     <IoIosDocument size={18} />
                     <p className='font-bold text-base ml-2'>Cancellation</p>
                 </div>
@@ -107,8 +107,8 @@ const AdminSidebar = () => {
                 </div>
                 <div className='flex flex-row items-center mt-6' onClick={redirectBilling}>
                     <IoIosDocument size={18} />
-                    <p className='font-bold text-base ml-2'>Subscription & Billing</p>
-                </div>
+                    <p className='font-bold text-base ml-2'>Subscription & Billing</p> */}
+                {/* </div> */}
             </Sidebar.Items>
         </Sidebar>
     );

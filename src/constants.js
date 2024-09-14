@@ -1,11 +1,12 @@
 //BRAND
-export const name = 'Cehpoint E-Learning Solutions';
- export const company = 'Cehpoint E-Learning & Cybersecurity Solutions';
-export const websiteURL = 'https://ai-based-training-platfo-ca895.web.app/';
+export const name = 'Cehpoint E-Learning AI Solutions';
+ export const company = 'Cehpoint E-Learning & Cybersecurity AI Solutions';
+export const websiteURL = 'https://ai-based-training-platfo-ca895.web.app';
 export const serverURL = 'https://ai-based-training-platform1.onrender.com';
-export const logo = 'https://firebasestorage.googleapis.com/v0/b/india-bd34b.appspot.com/o/artificial-intelligence.png?alt=media&token=2dc0da1c-12d0-4dd2-b908-cb8e57fcf3f0';
+export const logo = 'https://firebasestorage.googleapis.com/v0/b/ai-based-training-platfo-ca895.appspot.com/o/ai-technology.png?alt=media&token=6d27fd25-93e6-4b0e-b39e-3228e82668b6';
+
 // export const razorpayEnabled = true;
-// export const paypalEnabled = true;
+// export const paypalEnabled = true;`
 // export const StripeEnabled = true;
 // export const paystackEnabled = true;
 
@@ -35,8 +36,8 @@ export const profession = 'Founder & CEO at Cehpoint';
 export const photoURL = 'https://play-lh.googleusercontent.com/sV_ffBmBJt_je4RZHnfaCfcnL-Hy6C14Iol7H5EMj9fzI2GDOonuojdn5t9p6n9IAX8j';
 
 //PAYPAL
-export const paypalPlanIdOne = "P-1EM732768S920784HMWKW3OA";
-export const paypalPlanIdTwo = "P-8T744865W27080359MWOCE5Q";
+// export const paypalPlanIdOne = "P-1EM732768S920784HMWKW3OA";
+// export const paypalPlanIdTwo = "P-8T744865W27080359MWOCE5Q";
 
 // //RAZORPAY
 // export const razorpayKeyId = "rzp_test_uqALjZHyTyuiOm";
