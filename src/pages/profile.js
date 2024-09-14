@@ -10,8 +10,9 @@ import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
-
+ // eslint-disable-next-line
     const [mName, setName] = useState(sessionStorage.getItem('mName'));
+    // eslint-disable-next-line 
     const [email, setEmail] = useState(sessionStorage.getItem('email'));
     const [password, setPassword] = useState('');
     const [processing, setProcessing] = useState(false);
