@@ -13,7 +13,7 @@ const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } = require("@googl
 const { createApi } = require('unsplash-js');
 const showdown = require('showdown');
 // const axios = require('axios');
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 
 //INITIALIZE
 const app = express();
@@ -38,17 +38,7 @@ const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 const unsplash = createApi({ accessKey: process.env.UNSPLASH_ACCESS_KEY });
 
 //SCHEMA
-// const adminSchema = new mongoose.Schema({
-//     email: { type: String, unique: true, required: true },
-//     mName: String,
-//     // type: { type: String, required: true },
-//     // total: { type: Number, default: 0 },
-//     // terms: { type: String, default: '' },
-//     // privacy: { type: String, default: '' },
-//     // cancel: { type: String, default: '' },
-//     // refund: { type: String, default: '' },
-//     // billing: { type: String, default: '' }
-// });
+
 const userSchema = new mongoose.Schema({
     email: { type: String, unique: true, required: true },
     mName: String,
@@ -67,30 +57,11 @@ const courseSchema = new mongoose.Schema({
     end: { type: Date, default: Date.now },
     completed: { type: Boolean, default: false }
 });
-// const subscriptionSchema = new mongoose.Schema({
-//     user: String,
-//     subscription: String,
-//     subscriberId: String,
-//     plan: String,
-//     method: String,
-//     date: { type: Date, default: Date.now },
-//     active: { type: Boolean, default: true }
-// });
-// const contactShema = new mongoose.Schema({
-//     fname: String,
-//     lname: String,
-//     email: String,
-//     phone: Number,
-//     msg: String,
-//     date: { type: Date, default: Date.now },
-// });
+
 
 //MODEL
 const User = mongoose.model('User', userSchema);
 const Course = mongoose.model('Course', courseSchema);
-// const Subscription = mongoose.model('Subscription', subscriptionSchema);
-// const Contact = mongoose.model('Contact', contactShema);
-// const Admin = mongoose.model('Admin', adminSchema);
 
 //REQUEST
 
