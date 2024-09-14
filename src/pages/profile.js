@@ -36,12 +36,11 @@ const Profile = () => {
         }
         setProcessing(true);
         const uid = sessionStorage.getItem('uid');
-        const postURL = serverURL + '/api/profile';
+        const postURL = `${serverURL}/api/profile`;
         try {
             const response = await axios.post(postURL, { email, password, uid });
             if (response.data.success) {
                 showToast(response.data.message);
-                setProcessing(false);
                 setPassword('');
             } else {
                 showToast(response.data.message);
@@ -53,6 +52,8 @@ const Profile = () => {
                 console.error('Error:', error.response || error.message);
                 showToast('Internal Server Error');
             }
+        } finally {
+            setProcessing(false);
         }
     }
 
@@ -70,7 +71,6 @@ const Profile = () => {
             const response = await axios.post(postURL, { email, apiKey, uid });
             if (response.data.success) {
                 showToast(response.data.message);
-                setProcessing(false);
                 setApiKey('');
             } else {
                 showToast(response.data.message);
@@ -79,9 +79,11 @@ const Profile = () => {
             if (error.response && error.response.status === 404) {
                 showToast('Resource not found. Please check the URL.');
             } else {
-                console.error('Error:', error.response || error.message); 
+                console.error('Error:', error.response || error.message);
                 showToast('Internal Server Error');
             }
+        } finally {
+            setProcessing(false);
         }
     }
 
