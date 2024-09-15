@@ -497,32 +497,55 @@ const Course = () => {
 
     const sendMessage = async () => {
         if (newMessage.trim() === '') return;
-
+    
         const userMessage = { text: newMessage, sender: 'user' };
         const updatedMessages = [...messages, userMessage];
         setMessages(updatedMessages);
         await storeLocal(updatedMessages);
         setNewMessage('');
-
+    
         let mainPrompt = defaultPrompt + newMessage;
         const dataToSend = { prompt: mainPrompt };
         const url = serverURL + '/api/chat';
-
-        try {
-            const response = await axios.post(url, dataToSend);
-
-            if (response.data.success === false) {
-                sendMessage();
-            } else {
-                const botMessage = { text: response.data.text, sender: 'bot' };
-                const updatedMessagesWithBot = [...updatedMessages, botMessage];
-                setMessages(updatedMessagesWithBot);
-                await storeLocal(updatedMessagesWithBot);
+    
+        console.log('Sending request to:', url);
+        console.log('Request data:', dataToSend);
+    
+        const maxRetries = 3;
+        let attempts = 0;
+    
+        while (attempts < maxRetries) {
+            try {
+                const response = await axios.post(url, dataToSend);
+    
+                if (response.data.success === false) {
+                    console.warn('Request failed, retrying...');
+                    attempts++;
+                } else {
+                    const botMessage = { text: response.data.text, sender: 'bot' };
+                    const updatedMessagesWithBot = [...updatedMessages, botMessage];
+                    setMessages(updatedMessagesWithBot);
+                    await storeLocal(updatedMessagesWithBot);
+                    return;
+                }
+            } catch (error) {
+                if (error.response && error.response.status === 404) {
+                    console.error('Resource not found (404):', error.response.data);
+                    alert('The resource you are trying to access does not exist.');
+                    return;
+                } else {
+                    console.error('Error sending message:', error.response ? error.response.data : error.message);
+                }
+                attempts++;
             }
-        } catch (error) {
-
+    
+            await new Promise(resolve => setTimeout(resolve, 1000)); 
         }
+    
+        alert('Failed to send the message after several attempts. Please try again later.');
     };
+    
+    
 
     async function storeLocal(messages) {
         try {

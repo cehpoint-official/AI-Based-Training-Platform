@@ -28,9 +28,13 @@ const SignUp = () => {
         navigate("/signin");
     }
 
-    function redirectHome() {
-        navigate("/home");
-    }
+    const redirectHome = () => {
+        if (sessionStorage.getItem('auth')) {
+            navigate('/home');
+        } else {
+            console.error('Not authenticated');
+        }
+    };    
 
     useEffect(() => {
 
@@ -85,6 +89,7 @@ const SignUp = () => {
 
     async function sendEmail(mEmail, mName) {
 
+        console.log("Sending email to:", mEmail);
         try {
             const dataToSend = {
                 subject: `Welcome to ${name}`,
@@ -140,29 +145,49 @@ const SignUp = () => {
     }
 
     const handleGoogleSignIn = async () => {
-        const provider = new GoogleAuthProvider(); 
+        const provider = new GoogleAuthProvider();
         try {
-            const result = await signInWithPopup(auth, provider); 
-            const user = result.user; 
-            await setDoc(doc(db, "Users", user.uid), {
-                email: user.email,
-                firstName: user.displayName.split(' ')[0],
-                lastName: user.displayName.split(' ').slice(1).join(' ') || '',
-                photo: user.photoURL,
-            });
-            sessionStorage.setItem('auth', true);
-            sessionStorage.setItem('email', user.email);
-            sessionStorage.setItem('mName', user.displayName);
-            sessionStorage.setItem('uid', user.uid);
-            redirectHome();
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+    
+            if (user) {
+                console.log('Google user info:', user);
+    
+                try {
+                    await setDoc(doc(db, "Users", user.uid), {
+                      email: user.email,
+                      firstName: user.displayName?.split(' ')[0] || '',
+                      lastName: user.displayName?.split(' ').slice(1).join(' ') || '',
+                      photo: user.photoURL || '',
+                    });
+                    console.log('Document successfully written!');
+                  } catch (error) {
+                    console.error('Error writing document: ', error);
+                    showToast('Error writing document');
+                  }
+    
+                sessionStorage.setItem('auth', 'true');
+                sessionStorage.setItem('email', user.email);
+                sessionStorage.setItem('mName', user.displayName || '');
+                sessionStorage.setItem('uid', user.uid);
+    
+                console.log('Redirecting to home...');
+                redirectHome();
+            } else {
+                console.log('Google user not found.');
+                showToast('Google Sign-In failed.');
+            }
         } catch (error) {
             console.error('Google Sign-In Error:', error);
             showToast('Google Sign-In Error');
         }
     };
-
+    
+    
+        
+    
     return (
-        <GoogleOAuthProvider clientId="<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>">
+        <GoogleOAuthProvider clientId="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">
             <Flowbite>
                 <div className="flex h-screen dark:bg-black no-scrollbar">
 
