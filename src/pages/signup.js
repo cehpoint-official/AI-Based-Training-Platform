@@ -83,7 +83,7 @@ const SignUp = () => {
                 showToast(response.data.message);
             }
         } catch (error) {
-            showToast('Internal Server Error');
+            showToast('Internal Server Error!');
         }
     };
 
