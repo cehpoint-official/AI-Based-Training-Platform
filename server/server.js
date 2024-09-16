@@ -66,6 +66,24 @@ const Course = mongoose.model('Course', courseSchema);
 //REQUEST
 
 //SIGNUP
+
+const allowedOrigins = ['https://ai-based-training-platfo-ca895.web.app'];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization'
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
+
 app.post('/api/signup', async (req, res) => {
     const { email, mName, password, type } = req.body;
 
@@ -89,6 +107,10 @@ app.post('/api/signup', async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
+});
+
+app.listen(5000, () => {
+    console.log('Server is running on port 5000');
 });
 
 //SIGNIN
