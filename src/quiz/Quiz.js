@@ -109,7 +109,7 @@ const Quiz = ({ courseTitle, onCompletion }) => {
             setLoading(true);
             try {
                 const response = await fetch(
-                    // 'https://api.aimlapi.com', // Replace with your API endpoint if necessary
+                    'https://api.aimlapi.com', 
                 
                     {
                         method: 'POST',
@@ -122,11 +122,12 @@ const Quiz = ({ courseTitle, onCompletion }) => {
                 );
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch quiz');
+                    const errorText = await response.text();
+                    throw new Error(`Failed to fetch quiz: ${errorText}`);
                 }
 
                 const data = await response.json();
-                setQuestions(data.quiz); // Adjust this based on the actual API response structure
+                setQuestions(data.quiz); // Adjust based on actual API response
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching quiz:', error);
@@ -143,16 +144,17 @@ const Quiz = ({ courseTitle, onCompletion }) => {
     };
 
     const handleNext = () => {
-        if (selectedAnswer === questions[currentQuestion].answer) {
-            setScore(score + 1);
+        if (selectedAnswer === questions[currentQuestion]?.answer) {
+            setScore(prevScore => prevScore + 1);
             toast.success("Correct!");
         } else {
             toast.error("Wrong! Try again.");
         }
 
         setSelectedAnswer(null);
+
         if (currentQuestion < questions.length - 1) {
-            setCurrentQuestion(currentQuestion + 1);
+            setCurrentQuestion(prevQuestion => prevQuestion + 1);
         } else {
             onCompletion(score + 1);
         }
@@ -164,7 +166,7 @@ const Quiz = ({ courseTitle, onCompletion }) => {
                 <AiOutlineLoading className="animate-spin" />
             ) : (
                 <div className='quiz-container'>
-                    <h2>{questions[currentQuestion]?.question}</h2>
+                    <h2>{questions[currentQuestion]?.question || 'Loading question...'}</h2>
                     <div className='options'>
                         {questions[currentQuestion]?.options.map((option, index) => (
                             <button
