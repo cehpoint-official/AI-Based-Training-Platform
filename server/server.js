@@ -17,10 +17,21 @@ const showdown = require('showdown');
 
 //INITIALIZE
 const app = express();
-app.use(cors({
-    origin: 'http://localhost:3000' // Allow only localhost:3000, or '*' for all origins
-}))
+const allowedOrigins = ['http://localhost:3000','https://ai-based-training-platfo-ca895.web.app'];
 
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization'
+};
+
+app.use(cors(corsOptions));
  const PORT = process.env.PORT;
 app.use(bodyParser.json());
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -67,19 +78,7 @@ const Course = mongoose.model('Course', courseSchema);
 
 //SIGNUP
 
-const allowedOrigins = ['https://ai-based-training-platfo-ca895.web.app'];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type,Authorization'
-};
 
 app.use(cors(corsOptions));
 app.use(express.json());
