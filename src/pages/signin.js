@@ -240,17 +240,23 @@ const SignIn = () => {
 
     const handleGoogleSignIn = async () => {
         try {
+            console.log("sign")
           const result = await signInWithPopup(auth, googleProvider);
           const user = result.user;
           const token = await user.getIdToken(); // Get the user's token
+          console.log("User signed in, token:", token);
           const postURL = `${serverURL}/api/google-signin`;
+          console.log("Posting to URL:", postURL);
           const response = await axios.post(postURL, { token });
+          console.log("Response received:", response);
+          console.log('Response data:', response.data);
           if (response.data.success) {
+            console.log('5');
             showToast(response.data.message);
             sessionStorage.setItem('email', response.data.userData.email);
             sessionStorage.setItem('mName', response.data.userData.mName);
             sessionStorage.setItem('auth', true);
-            sessionStorage.setItem('uid', response.data.userData._id);
+            sessionStorage.setItem('uid', response.data.userData.id);
             sessionStorage.setItem('type', response.data.userData.type);
             navigate("/home");
           } else {

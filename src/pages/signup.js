@@ -143,18 +143,19 @@ const SignUp = () => {
         }
 
     }
-
+    const provider = new GoogleAuthProvider();
     const handleGoogleSignIn = async () => {
-        const provider = new GoogleAuthProvider();
+        console.log("cck")
+        // const provider = new GoogleAuthProvider();
         try {
             const result = await signInWithPopup(auth, provider);
-            const user = result.user;
-    
+            const user =  result.user;
+            console.log("k")
             if (user) {
                 console.log('Google user info:', user);
     
                 try {
-                    await setDoc(doc(db, "Users", user.uid), {
+                    await setDoc(doc(db, "Users", user.id), {
                       email: user.email,
                       firstName: user.displayName?.split(' ')[0] || '',
                       lastName: user.displayName?.split(' ').slice(1).join(' ') || '',
