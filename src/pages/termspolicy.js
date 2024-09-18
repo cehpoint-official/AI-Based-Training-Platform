@@ -12,29 +12,30 @@ const TermsPolicy = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            const postURL = `${serverURL}/api/policies`;
             try {
-                const storedTerms = sessionStorage.getItem('TermsPolicy');
-                if (storedTerms) {
-                    setData(storedTerms);
+                const response = await axios.get(postURL);
+                if (response.data && response.data.length > 0) {
+                    const terms = response.data[0].terms || 'No terms available';
+                    setData(terms);
+                    sessionStorage.setItem('TermsPolicy', terms); // Store in sessionStorage
                 } else {
-                    const postURL = `${serverURL}/api/policies`;
-                    const response = await axios.get(postURL);
-                    setData(response.data[0].terms);
-                    sessionStorage.setItem('TermsPolicy', response.data[0].terms);
+                    throw new Error('No terms data found');
                 }
             } catch (err) {
-                setError('Failed to fetch data');
-                console.error(err);
+                setError('Failed to load terms policy. Please try again later.');
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchData();
+        if (sessionStorage.getItem('TermsPolicy')) {
+            setData(sessionStorage.getItem('TermsPolicy'));
+            setLoading(false); // No need to load if already in sessionStorage
+        } else {
+            fetchData();
+        }
     }, []);
-
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
 
     return (
         <div className='h-screen flex flex-col'>
@@ -42,7 +43,15 @@ const TermsPolicy = () => {
             <div className='dark:bg-black flex-1'>
                 <div className='flex-1 flex items-center justify-center py-10 flex-col'>
                     <p className='text-center font-black text-4xl text-black dark:text-white'>Terms</p>
-                    <div className='w-4/5 py-20'><StyledText text={data} /></div>
+                    {loading ? (
+                        <p className='text-center text-gray-500 dark:text-gray-400'>Loading...</p>
+                    ) : error ? (
+                        <p className='text-center text-red-500'>{error}</p>
+                    ) : (
+                        <div className='w-4/5 py-20'>
+                            <StyledText text={data} />
+                        </div>
+                    )}
                 </div>
             </div>
             <Footers className="sticky bottom-0 z-50" />
