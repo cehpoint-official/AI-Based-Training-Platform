@@ -14,10 +14,10 @@ import Topics from './pages/topics';
 import Course from './pages/course';
 import Certificate from './pages/certificate';
 import Profile from './pages/profile';
-
+import TermsPolicy from './pages/termspolicy';
 import Features from './pages/features';
 import About from './pages/about';
-
+import PrivacyPolicy from './pages/privacypolicy';
 import Contact from './pages/contact';
 import DashBoard from './admin/dashboard';
 import Users from './admin/users';
@@ -67,6 +67,8 @@ function App() {
            <Route path='/features' element={<Features />} />
           <Route path='/about' element={<About />} />
           <Route path='/contact' element={<Contact />} />
+          <Route path='/terms' element={<TermsPolicy />} />
+          <Route path='/privacy' element={<PrivacyPolicy />} />
           {/* Admin Panel */}
           <Route path='/dashBoard' element={<DashBoard />} />
           <Route path='/users' element={<Users />} />
