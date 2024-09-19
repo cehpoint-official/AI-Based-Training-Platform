@@ -152,7 +152,7 @@ import LogoComponent from '../components/LogoComponent';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AiOutlineLoading } from 'react-icons/ai';
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { GoogleOAuthProvider} from '@react-oauth/google';
 import { auth, googleProvider } from '../firebase/firebaseConfig'; 
 import { signInWithPopup } from 'firebase/auth';
 import axios from 'axios';

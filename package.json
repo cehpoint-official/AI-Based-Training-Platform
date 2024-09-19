@@ -1,7 +1,8 @@
 {
-  "name": "CehpointE-LearningSolutions",
+  "name": "cehpoint-e-learning",
   "version": "0.1.0",
   "private": true,
+  "proxy":"https://ai-based-training-platform1.onrender.com",
   "dependencies": {
     "@google/generative-ai": "^0.1.1",
     "@react-email/render": "^0.0.10",

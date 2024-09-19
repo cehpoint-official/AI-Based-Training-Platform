@@ -9,6 +9,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineLoading } from 'react-icons/ai';
+// eslint-disable-next-line
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth, db } from '../firebase/firebaseConfig'; 

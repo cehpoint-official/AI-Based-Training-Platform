@@ -32,7 +32,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
- const PORT = process.env.PORT;
+//  const PORT = process.env.PORT;
 app.use(bodyParser.json());
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const transporter = nodemailer.createTransport({
@@ -553,24 +553,24 @@ app.post('/api/chat', async (req, res) => {
 
 
 //LISTEN
-// const port = process.env.PORT || 5000;
-// app.listen(port, () => { 
-//     console.log(`Server is running on port ${port}`);
+const port = process.env.PORT || 5000;
+app.listen(port, () => { 
+    console.log(`Server is running on port ${port}`);
+});
+// app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
 // });
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
 
 
-app.post('/api/project-suggestions', async (req, res) => {
-    const { prompt } = req.body;
+// app.post('/api/project-suggestions', async (req, res) => {
+//     const { prompt } = req.body;
 
-    try {
-        // Replace with your AI generation logic or call to another service
-        const response = await someAIService.generateProjectSuggestions(prompt);
-        res.json({ suggestions: response.data });
-    } catch (error) {
-        console.error("Error generating project suggestions:", error);
-        res.status(500).send("Error generating project suggestions");
-    }
-});
+//     try {
+//         // Replace with your AI generation logic or call to another service
+//         const response = await someAIService.generateProjectSuggestions(prompt);
+//         res.json({ suggestions: response.data });
+//     } catch (error) {
+//         console.error("Error generating project suggestions:", error);
+//         res.status(500).send("Error generating project suggestions");
+//     }
+// });
