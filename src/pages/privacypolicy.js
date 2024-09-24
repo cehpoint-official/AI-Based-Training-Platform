@@ -42,10 +42,10 @@ const PrivacyPolicy = () => {
           <p className="text-center font-black text-4xl text-black dark:text-white">
             Privacy Policy
           </p>
-          <div className="w-2/4 py-10 text-justify text-black dark:text-white">
+          <div className="md:w-2/4  xs:w-full mx-4 py-10 text-justify text-black dark:text-white">
             <div className="text-black dark:text-white">
               <p>
-                At Cepoint, protecting your privacy is our priority. This
+                At Cehpoint, protecting your privacy is our priority. This
                 privacy policy outlines how we handle and protect your personal
                 information when you authenticate with Google Auth credentials
                 to interact with Google Gemini AI within our services.
@@ -54,7 +54,7 @@ const PrivacyPolicy = () => {
                 1. Information We Collect
               </h2>
               <p>
-                When you use Google Auth to access Cepoint services integrated
+                When you use Google Auth to access Cehpoint services integrated
                 with Google Gemini AI, we may collect and store the following
                 information:
               </p>
@@ -70,8 +70,8 @@ const PrivacyPolicy = () => {
                 </li>
                 <li>
                   <strong>Usage Data:</strong> Information related to how you
-                  interact with Cepoint services and Google Gemini AI, including
-                  timestamps and AI-generated outputs.
+                  interact with Cehpoint services and Google Gemini AI,
+                  including timestamps and AI-generated outputs.
                 </li>
               </ul>
               <p>
@@ -85,7 +85,7 @@ const PrivacyPolicy = () => {
               <ul>
                 <li>
                   <strong>Authenticate Users:</strong> Verify your identity
-                  through Google Auth for secure access to Cepoint services and
+                  through Google Auth for secure access to Cehpoint services and
                   Google Gemini AI.
                 </li>
                 <li>
@@ -95,7 +95,7 @@ const PrivacyPolicy = () => {
                 </li>
                 <li>
                   <strong>Improve User Experience:</strong> Analyze usage data
-                  to enhance Cepoint's services and the integration with Google
+                  to enhance Cehpoint's services and the integration with Google
                   Gemini AI.
                 </li>
               </ul>
@@ -138,7 +138,7 @@ const PrivacyPolicy = () => {
                 </li>
                 <li>
                   <strong>Access Control:</strong> Access to personal data is
-                  restricted to authorized Cepoint personnel who need it to
+                  restricted to authorized Cehpoint personnel who need it to
                   perform their job functions.
                 </li>
                 <li>
@@ -165,7 +165,7 @@ const PrivacyPolicy = () => {
               <ul>
                 <li>
                   <strong>Access and Update:</strong> You can access and update
-                  your Google Auth information through your Cepoint account
+                  your Google Auth information through your Cehpoint account
                   settings.
                 </li>
                 <li>
@@ -176,16 +176,16 @@ const PrivacyPolicy = () => {
                 <li>
                   <strong>Withdrawal of Consent:</strong> You may revoke your
                   consent to use Google Auth at any time, but this may affect
-                  your ability to use certain features of Cepoint services.
+                  your ability to use certain features of Cehpoint services.
                 </li>
               </ul>
               <h2 className="font-black text-2xl text-black dark:text-white pt-4">
                 7. Changes to This Policy
               </h2>
               <p>
-                Cepoint may update this privacy policy from time to time. If any
-                significant changes are made, we will notify you via email or a
-                prominent notice on our platform.
+                Cehpoint may update this privacy policy from time to time. If
+                any significant changes are made, we will notify you via email
+                or a prominent notice on our platform.
               </p>
               <h2 className="font-black text-2xl text-black dark:text-white pt-4">
                 8. Contact Information
