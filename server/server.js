@@ -410,41 +410,6 @@ app.post("/api/generate", async (req, res) => {
     });
 });
 
-app.get("/api/policies", async (req, res) => {
-  let privacyPolicyTemplate = readFileSync(
-    "./templates/privacy_policy_template.txt",
-    "utf8"
-  );
-
-  let privacyPolicy = privacyPolicyTemplate.replace(
-    "{{current_date}}",
-    new Date()
-  );
-
-  return res.json({
-    success: true,
-    message: "Fetched privacy policy",
-    privacy: privacyPolicy,
-  });
-});
-
-app.get("/api/termsOfUs", async (req, res) => {
-  let privacyPolicyTemplate = readFileSync(
-    "./templates/terms_of_us_template.txt",
-    "utf8"
-  );
-
-  let privacyPolicy = privacyPolicyTemplate.replace(
-    "{{current_date}}",
-    new Date()
-  );
-
-  return res.json({
-    success: true,
-    message: "Fetched privacy policy",
-    terms: privacyPolicy,
-  });
-});
 //GET IMAGE
 app.post("/api/image", async (req, res) => {
   const receivedData = req.body;
