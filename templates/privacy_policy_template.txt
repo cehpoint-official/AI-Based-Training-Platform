@@ -1,6 +1,6 @@
 <div className="text-black dark:text-white">
                 <p>
-                  At CePoint, protecting your privacy is our priority. This
+                  At Cepoint, protecting your privacy is our priority. This
                   privacy policy outlines how we handle and protect your
                   personal information when you authenticate with Google Auth
                   credentials to interact with Google Gemini AI within our
@@ -10,7 +10,7 @@
                   1. Information We Collect
                 </h2>
                 <p>
-                  When you use Google Auth to access CePoint services integrated
+                  When you use Google Auth to access Cepoint services integrated
                   with Google Gemini AI, we may collect and store the following
                   information:
                 </p>
@@ -26,7 +26,7 @@
                   </li>
                   <li>
                     <strong>Usage Data:</strong> Information related to how you
-                    interact with CePoint services and Google Gemini AI,
+                    interact with Cepoint services and Google Gemini AI,
                     including timestamps and AI-generated outputs.
                   </li>
                 </ul>
@@ -41,7 +41,7 @@
                 <ul>
                   <li>
                     <strong>Authenticate Users:</strong> Verify your identity
-                    through Google Auth for secure access to CePoint services
+                    through Google Auth for secure access to Cepoint services
                     and Google Gemini AI.
                   </li>
                   <li>
@@ -51,7 +51,7 @@
                   </li>
                   <li>
                     <strong>Improve User Experience:</strong> Analyze usage data
-                    to enhance CePoint's services and the integration with
+                    to enhance Cepoint's services and the integration with
                     Google Gemini AI.
                   </li>
                 </ul>
@@ -94,7 +94,7 @@
                   </li>
                   <li>
                     <strong>Access Control:</strong> Access to personal data is
-                    restricted to authorized CePoint personnel who need it to
+                    restricted to authorized Cepoint personnel who need it to
                     perform their job functions.
                   </li>
                   <li>
@@ -122,7 +122,7 @@
                 <ul>
                   <li>
                     <strong>Access and Update:</strong> You can access and
-                    update your Google Auth information through your CePoint
+                    update your Google Auth information through your Cepoint
                     account settings.
                   </li>
                   <li>
@@ -133,14 +133,14 @@
                   <li>
                     <strong>Withdrawal of Consent:</strong> You may revoke your
                     consent to use Google Auth at any time, but this may affect
-                    your ability to use certain features of CePoint services.
+                    your ability to use certain features of Cepoint services.
                   </li>
                 </ul>
                 <h2 className="font-black text-2xl text-black dark:text-white pt-4">
                   7. Changes to This Policy
                 </h2>
                 <p>
-                  CePoint may update this privacy policy from time to time. If
+                  Cepoint may update this privacy policy from time to time. If
                   any significant changes are made, we will notify you via email
                   or a prominent notice on our platform.
                 </p>
