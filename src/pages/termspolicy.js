@@ -12,11 +12,11 @@ const TermsPolicy = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const postURL = `${serverURL}/api/policies`;
+      const postURL = `${serverURL}/api/termsOfUs`;
       try {
         const response = await axios.get(postURL);
-        if (response.data && response.data.length > 0) {
-          const terms = response.data[0].terms || "No terms available";
+        if (response.data && response.data.terms) {
+          const terms = response.data.terms || "No terms available";
           setData(terms);
           sessionStorage.setItem("TermsPolicy", terms); // Store in sessionStorage
         } else {
@@ -52,8 +52,8 @@ const TermsPolicy = () => {
           ) : error ? (
             <p className="text-center text-red-500">{error}</p>
           ) : (
-            <div className="w-4/5 py-20">
-              <StyledText text={data} />
+            <div className="w-2/4 py-10 text-justify text-black dark:text-white">
+              <div dangerouslySetInnerHTML={{ __html: data }} />
             </div>
           )}
         </div>

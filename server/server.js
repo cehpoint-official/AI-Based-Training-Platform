@@ -16,6 +16,7 @@ const {
 } = require("@google/generative-ai");
 const { createApi } = require("unsplash-js");
 const showdown = require("showdown");
+const { readFileSync } = require("fs");
 // const axios = require('axios');
 
 //INITIALIZE
@@ -131,7 +132,7 @@ app.post("/api/signup", async (req, res) => {
   }
 });
 
-app.post("/api/google-signin", async (req, res) => {
+app.post("/api/google/auth", async (req, res) => {
   const { name, email, token } = req.body;
   try {
     const existingUser = await User.findOne({ email });
@@ -139,8 +140,7 @@ app.post("/api/google-signin", async (req, res) => {
       if (!existingUser.password) {
         return res.json({
           success: true,
-          message:
-            "Sign-in successful, but no password set. Please set a password.",
+          message: "Google authentication successful",
           userData: existingUser,
           passwordSetRequired: true,
         });
@@ -168,7 +168,7 @@ app.listen(5000, () => {
 });
 
 //SIGNIN
-app.post("/api/google/auth", async (req, res) => {
+app.post("/api/signin", async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -410,6 +410,41 @@ app.post("/api/generate", async (req, res) => {
     });
 });
 
+app.get("/api/policies", async (req, res) => {
+  let privacyPolicyTemplate = readFileSync(
+    "./templates/privacy_policy_template.txt",
+    "utf8"
+  );
+
+  let privacyPolicy = privacyPolicyTemplate.replace(
+    "{{current_date}}",
+    new Date()
+  );
+
+  return res.json({
+    success: true,
+    message: "Fetched privacy policy",
+    privacy: privacyPolicy,
+  });
+});
+
+app.get("/api/termsOfUs", async (req, res) => {
+  let privacyPolicyTemplate = readFileSync(
+    "./templates/terms_of_us_template.txt",
+    "utf8"
+  );
+
+  let privacyPolicy = privacyPolicyTemplate.replace(
+    "{{current_date}}",
+    new Date()
+  );
+
+  return res.json({
+    success: true,
+    message: "Fetched privacy policy",
+    terms: privacyPolicy,
+  });
+});
 //GET IMAGE
 app.post("/api/image", async (req, res) => {
   const receivedData = req.body;
