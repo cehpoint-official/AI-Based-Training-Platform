@@ -13,7 +13,8 @@ const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } = require("@googl
 const { createApi } = require('unsplash-js');
 const showdown = require('showdown');
 // const axios = require('axios');
-
+console.log('Mongo URI:', process.env.MONGO_URI);
+console.log(process.env.API_KEY);
 
 //INITIALIZE
 const app = express();
@@ -32,9 +33,18 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
- const PORT = process.env.PORT;
+ const PORT = process.env.PORT1;
 app.use(bodyParser.json());
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+const mongoURI = process.env.MONGO_URI; 
+
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('Connected to MongoDB');
+}).catch(err => {
+  console.error('MongoDB connection error:', err);
+});
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -373,10 +383,11 @@ app.post('/api/transcript', async (req, res) => {
 
 //STORE COURSE
 app.post('/api/course', async (req, res) => {
-    const { user, content, type, mainTopic } = req.body;
+    const { user, content, type, mainTopic ,subtopics} = req.body;
 
     unsplash.search.getPhotos({
         query: mainTopic,
+        query:subtopics,
         page: 1,
         perPage: 1,
         orientation: 'landscape',
@@ -384,7 +395,7 @@ app.post('/api/course', async (req, res) => {
         const photos = result.response.results;
         const photo = photos[0].urls.regular
         try {
-            const newCourse = new Course({ user, content, type, mainTopic, photo });
+            const newCourse = new Course({ user, content, type, mainTopic,subtopics, photo });
             await newCourse.save();
             res.json({ success: true, message: 'Course created successfully', courseId: newCourse._id });
         } catch (error) {
