@@ -33,7 +33,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
- const PORT = process.env.PORT1;
+ const PORT = process.env.PORT;
 app.use(bodyParser.json());
 const mongoURI = process.env.MONGO_URI; 
 
