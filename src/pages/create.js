@@ -163,14 +163,14 @@ const Create = () => {
       ]
       }`;
 
-        await sendPrompt(prompt, mainTopic, selectedType)
+        await sendPrompt(prompt, mainTopic,subtopics, selectedType)
 
         setCoursesCreatedToday(coursesCreatedToday + 1);
         sessionStorage.setItem('coursesCreatedToday', (coursesCreatedToday + 1).toString());
 
     };
 
-    async function sendPrompt(prompt, mainTopic, selectedType) {
+    async function sendPrompt(prompt, mainTopic,subtopics, selectedType) {
         const dataToSend = {
             prompt: prompt,
         };
@@ -182,13 +182,13 @@ const Create = () => {
             try {
                 const parsedJson = JSON.parse(cleanedJsonString);
                 setProcessing(false);
-                navigate('/topics', { state: { jsonData: parsedJson, mainTopic: mainTopic.toLowerCase(), type: selectedType.toLowerCase() } });
+                navigate('/topics', { state: { jsonData: parsedJson, mainTopic: mainTopic.toLowerCase(),subtopics.toLowerCase(), type: selectedType.toLowerCase() } });
             } catch (error) {
-                sendPrompt(prompt, mainTopic, selectedType)
+                sendPrompt(prompt, mainTopic,subtopics, selectedType)
             }
 
         } catch (error) {
-            sendPrompt(prompt, mainTopic, selectedType)
+            sendPrompt(prompt, mainTopic,subtopics, selectedType)
         }
     }
      
