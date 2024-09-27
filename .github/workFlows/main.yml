@@ -1,5 +1,7 @@
 name: Firebase Deployment
 on:
+  branch_protection_rule:
+    types: [created, edited]
   push:
     branches:
       - ariba

@@ -16,7 +16,7 @@ const {
 } = require("@google/generative-ai");
 const { createApi } = require("unsplash-js");
 const showdown = require("showdown");
-const { readFileSync } = require("fs");
+const functions = require("firebase-functions");
 // const axios = require('axios');
 
 //INITIALIZE
@@ -654,12 +654,6 @@ app.post("/api/chat", async (req, res) => {
     });
 });
 
-//LISTEN
-// const port = process.env.PORT || 5000;
-// app.listen(port, () => {
-//     console.log(`Server is running on port ${port}`);
-// });
-
 app.post("/api/project-suggestions", async (req, res) => {
   const { prompt } = req.body;
 
@@ -672,3 +666,5 @@ app.post("/api/project-suggestions", async (req, res) => {
     res.status(500).send("Error generating project suggestions");
   }
 });
+
+exports.api = functions.https.onRequest(app);
