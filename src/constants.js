@@ -3,9 +3,7 @@ export const name = "Cehpoint E-Learning AI Solutions";
 export const company = "Cehpoint E-Learning & Cybersecurity AI Solutions";
 export const websiteURL = "https://ai-based-training-platfo-ca895.web.app";
 export const serverURL =
-  process.env.REACT_APP_NODE_ENV === "local"
-    ? "http://localhost:5000"
-    : "https://ai-based-training-platform1-vvwm.onrender.com";
+  "https://ai-based-training-platform1-vvwm.onrender.com";
 export const logo =
   "https://firebasestorage.googleapis.com/v0/b/ai-based-training-platfo-ca895.appspot.com/o/ai-technology.png?alt=media&token=6d27fd25-93e6-4b0e-b39e-3228e82668b6";
 

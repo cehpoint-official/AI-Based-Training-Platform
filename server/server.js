@@ -24,6 +24,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
   "https://ai-based-training-platfo-ca895.web.app",
+  "https://ai-based-training-by-ariba-2d081.web.app",
 ];
 
 const corsOptions = {
