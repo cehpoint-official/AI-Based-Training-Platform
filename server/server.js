@@ -16,7 +16,7 @@ const {
 } = require("@google/generative-ai");
 const { createApi } = require("unsplash-js");
 const showdown = require("showdown");
-const functions = require("firebase-functions");
+// const functions = require("firebase-functions");
 // const axios = require('axios');
 
 //INITIALIZE
@@ -605,6 +605,7 @@ app.post("/api/profile", async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+
 //CHAT
 app.post("/api/chat", async (req, res) => {
   const receivedData = req.body;
@@ -667,4 +668,4 @@ app.post("/api/project-suggestions", async (req, res) => {
   }
 });
 
-exports.api = functions.https.onRequest(app);
+// exports.api = functions.https.onRequest(app);
