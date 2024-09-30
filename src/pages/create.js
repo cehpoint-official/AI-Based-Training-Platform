@@ -182,7 +182,7 @@ const Create = () => {
             try {
                 const parsedJson = JSON.parse(cleanedJsonString);
                 setProcessing(false);
-                navigate('/topics', { state: { jsonData: parsedJson, mainTopic: mainTopic.toLowerCase(),subtopics.toLowerCase(), type: selectedType.toLowerCase() } });
+                navigate('/topics', { state: { jsonData: parsedJson, mainTopic: mainTopic.toLowerCase(), subtopics: subtopics.toLowerCase(), type: selectedType.toLowerCase() } });
             } catch (error) {
                 sendPrompt(prompt, mainTopic,subtopics, selectedType)
             }
