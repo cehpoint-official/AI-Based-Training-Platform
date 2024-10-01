@@ -13,8 +13,7 @@ const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } = require("@googl
 const { createApi } = require('unsplash-js');
 const showdown = require('showdown');
 // const axios = require('axios');
-console.log('Mongo URI:', process.env.MONGO_URI);
-console.log(process.env.API_KEY);
+
 
 //INITIALIZE
 const app = express();
@@ -118,9 +117,7 @@ app.post('/api/signup', async (req, res) => {
     }
 });
 
-app.listen(5000, () => {
-    console.log('Server is running on port 5000');
-});
+
 
 //SIGNIN
 app.post('/api/signin', async (req, res) => {
@@ -387,7 +384,7 @@ app.post('/api/course', async (req, res) => {
 
     unsplash.search.getPhotos({
         query: mainTopic,
-        query:subtopics,
+       
         page: 1,
         perPage: 1,
         orientation: 'landscape',
@@ -395,13 +392,32 @@ app.post('/api/course', async (req, res) => {
         const photos = result.response.results;
         const photo = photos[0].urls.regular
         try {
-            const newCourse = new Course({ user, content, type, mainTopic,subtopics, photo });
+            const newCourse = new Course({ user, content, type, mainTopic, photo });
             await newCourse.save();
             res.json({ success: true, message: 'Course created successfully', courseId: newCourse._id });
         } catch (error) {
             res.status(500).json({ success: false, message: 'Internal server error' });
         }
     })
+  if(subtopics){
+    unsplash.search.getPhotos({
+        query: subtopics,
+       
+        page: 1,
+        perPage: 1,
+        orientation: 'landscape',
+    }).then(async (result) => {
+        const photos = result.response.results;
+        const photo = photos[0].urls.regular
+        try {
+            const newCourse = new Course({ user, content, type, subtopics, photo });
+            await newCourse.save();
+            res.json({ success: true, message: 'Course created successfully', courseId: newCourse._id });
+        } catch (error) {
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    })
+  }
 });
 
 //UPDATE COURSE
